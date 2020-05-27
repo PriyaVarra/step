@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+<script src="script.js"></script>
 <style>
 body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
 body {font-size:16px;}
@@ -63,8 +64,8 @@ body {font-size:16px;}
   <div class="w3-container" id="projects" style="margin-top:75px">
     <h1 class="w3-xxxlarge w3-text-teal"><b>Projects</b></h1>
     <hr style="width:50px;border:5px solid teal" class="w3-round">
-    <p> During my time so far at Carnegie Mellon University, I have had the wonderful opportunity to take courses covering a wide range of fascinating topics in the field of computer science. Many of these courses have culminated with a final project, where I have been able to gain a deeper understanding and learn the practical considerations of the concepts covered in the course by researching, designing, and implementing algorithms and analyses on real-world data and frameworks.     
-    </p>
+    <p>  During my time so far at Carnegie Mellon University, I have had the wonderful opportunity to take courses covering a wide range of fascinating topics in the field of computer science. Many of these courses have culminated with a final project, where I have been able to gain a deeper understanding and learn the practical considerations of the concepts covered in the course by researching, designing, and implementing algorithms and analyses on real-world data and frameworks.     
+     </p>
 
   </div>
 
@@ -77,27 +78,30 @@ body {font-size:16px;}
           <h3>Spectral Clustering: A Python Implementation </h3>
           <p class="w3-opacity">Matrices and Linear Transformations - Fall 2018 &nbsp <a href="https://github.com/PriyaVarra/Spectral-Clustering-A-Python-Implementation"> <img src="images/GitHub-Mark-32px.png" width="32" height="32"> </a>
           </p>   
-          <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+          <p> Spectral clustering is an unsupervised learning algorithm that clusters data by performing dimensionality reduction before clustering the resulting lower-dimensional data. In this project, my partner and I used Python to reduce dimensionality by constructing a similarity matrix from our data and taking its top eigenvectors. We then implemented k-means clustering and ran it on the selected eigenvectors to produce clusters for the original data. </p>
         </div>
       </div>
     </div>
+
     <div class="w3-col m4 w3-margin-bottom">
       <div class="w3-light-grey">
         <img src="images/Figure2.png" alt="wbc" style="width:100%">
         <div class="w3-container">
-          <h3>White Blood Cell Image Classification</h3>
+          <h3> White Blood Cell Image Classification </h3>
           <p class="w3-opacity">Great Ideas in Computational Biology - Spring 2019 &nbsp <a href="https://github.com/PriyaVarra/Classifying-White-Blood-Cell-Images-Using-Deep-Learning"> <img src="images/GitHub-Mark-32px.png" width="32" height="32"> </a> </p>
-          <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+          <p> In this project, I attempted to create a computational model capable of classifying an image of a stained white blood cell into one of the four major types of white blood cells. Specifically, I used Python to preprocess a set of publicly available training images before using Tensorflow and Keras to create, train, and test three convolutional neural networks with the best model achieving an accuracy of 78%.   </p>
         </div>
       </div>
     </div>
+
     <div class="w3-col m4 w3-margin-bottom">
       <div class="w3-light-grey">
         <img src="images/array_bounds_example.png" alt="array" style="width:100%">
         <div class="w3-container">
           <h3>Array Bounds Checking for Java</h3>
           <p class="w3-opacity">Program Analysis - Spring 2020 &nbsp <a href="https://github.com/PriyaVarra/Context-Sensitive-Interprocedural-Range-Analysis-for-Java"> <img src="images/GitHub-Mark-32px.png" width="32" height="32"> </a></p>
-          <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+          <p> In this project, I designed and implemented a context-sensitive interprocedural dataflow analysis that tracks the possible values of integer variables during program execution for Jimple -an intermediate representation of Java bytecode provided by the Soot framework. 
+              I utilized information collected in this analysis to provide errors and warnings about negative and out of bounds array accesses for Java code samples. </p>
         </div>
       </div>
     </div>
@@ -161,27 +165,6 @@ body {font-size:16px;}
 
 <!-- W3.CSS Container -->
 <div class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px"><p class="w3-right">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></p></div>
-
-<script>
-// Script to open and close sidebar
-function w3_open() {
-  document.getElementById("mySidebar").style.display = "block";
-  document.getElementById("myOverlay").style.display = "block";
-}
- 
-function w3_close() {
-  document.getElementById("mySidebar").style.display = "none";
-  document.getElementById("myOverlay").style.display = "none";
-}
-
-// Modal Image Gallery
-function onClick(element) {
-  document.getElementById("img01").src = element.src;
-  document.getElementById("modal01").style.display = "block";
-  var captionText = document.getElementById("caption");
-  captionText.innerHTML = element.alt;
-}
-</script>
 
 </body>
 </html>

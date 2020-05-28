@@ -3,9 +3,9 @@
 <title>Priya Varra</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="script.js"></script>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-<script src="script.js"></script>
 <style>
 body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
 body {font-size:16px;}
@@ -13,6 +13,7 @@ body {font-size:16px;}
 .w3-half img:hover{opacity:1}
 </style>
 <body>
+
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-teal w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
@@ -67,7 +68,8 @@ body {font-size:16px;}
             </h4>
 
             <h4>
-                Outside of computer science, my interests include playing music and tennis, dancing, and, as of late, biking. Check out the hobbies section to learn more! I also enjoy swimming, especially since I live in Phoenix, and it's one of the only enjoyable outdoor activities in the 115 &deg F summer heat.
+                Outside of computer science, my interests include playing music and tennis, dancing, and, as of late, biking. Check out the hobbies section to learn more! 
+                I also enjoy swimming, especially since I live in Phoenix, and it's one of the only enjoyable outdoor activities in the 115 &deg F summer heat.
              </h4>
                 
         </div>    
@@ -150,20 +152,17 @@ body {font-size:16px;}
     <hr style="width:50px;border:5px solid teal" class="w3-round">
   </div>
   
-
-  <div class="w3-row-padding">
-    <div class="w3-half">
-      <img src="images/myAvatar.png" style="width:100%" onclick="onClick(this)" alt="Concrete meets bricks">
-      <img src="images/myAvatar.png" style="width:100%" onclick="onClick(this)" alt="Light, white and tight scandinavian design">
-      <img src="images/myAvatar.png" style="width:100%" onclick="onClick(this)" alt="White walls with designer chairs">
-    </div>
-
-    <div class="w3-half">
-      <img src="images/myAvatar.png" style="width:100%" onclick="onClick(this)" alt="Windows for the atrium">
-      <img src="images/myAvatar.png" style="width:100%" onclick="onClick(this)" alt="Bedroom and office in one space">
-      <img src="images/myAvatar.png" style="width:100%" onclick="onClick(this)" alt="Scandinavian design">
-    </div>
+  <div class="w3-container w3-center" id="img-container">
+      <img id="current_image" src="gallery/gallery0.jpg" width="600" height="450" >
   </div>
+
+   <div class="w3-container w3-padding w3-center"> 
+   
+    <button class="w3-button w3-teal" onclick="changePhoto(-1)"> &#8592 </button>
+    &nbsp 
+    <button class="w3-button w3-teal" onclick="changePhoto(1)"> &#8594 </button>
+   </div> 
+
 
   <!-- Modal for full size images on click-->
   <div id="modal01" class="w3-modal w3-black" style="padding-top:0" onclick="this.style.display='none'">

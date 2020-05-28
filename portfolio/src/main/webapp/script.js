@@ -20,38 +20,53 @@
  */
 function changePhoto(dir) {
     // Image captions
-    var captions = ["This is Snugglebuns! She is a winter white dwarf hamster, and she was my first pet.", "An up close view of the eruption of Kileaua on Big Island in 2018 "]
+    var captions = ["This is Snugglebuns! A winter white dwarf hamster and my first pet.",
+                    "An up close view from a boat tour of the eruption of Kileaua on Big Island in 2018.",
+                    "A picturesque view of Geirangerfjord on a road trip in Norway.",
+                    "Taking in the sights at the Taj Mahal.",
+                    "My sister and I enjoying ourselves in Oslo",
+                    "\"Sledding\"  at White Sands National Park in New Mexico"]
 
+    // Image widths
+    var widths = ["600", "600", "600", "350", "600", "600"]
 
     // Get current image id
     const curr_img = document.getElementById("current_image").src;
     var id = parseInt(curr_img.charAt(curr_img.length - 5));
 
     console.log("Current image " + curr_img);
-    // Compute id of previous image
+    
+    // Compute id of new image
     id = id + dir;
 
     if (id < 0) {
-        id = 4;
+        id = 5;
     }
 
-    if (id > 4) {
+    if (id > 5) {
         id = 0;
     }
 
     
     // Create new image element
     const prev_img_src = "gallery/gallery" + id + ".jpg";
-    const imgElement = document.createElement('img');
+
+    const imgElement = document.createElement("img");
     imgElement.src = prev_img_src;
     imgElement.id = "current_image";
-    imgElement.width = "600";
+    imgElement.width = widths[id];
     imgElement.height = "450";
 
-    const imageContainer = document.getElementById('img-container');
-    // Remove the previous image.
+    // Create new caption element
+    const capElement = document.createElement("h4");
+    var capNode = document.createTextNode(captions[id]);
+    capElement.appendChild(capNode);
+
+    // Remove previous image and caption and add new image and caption. 
+    const imageContainer = document.getElementById("img-container");
     imageContainer.innerHTML = '';
     imageContainer.appendChild(imgElement);
+    imageContainer.appendChild(capElement)
 }
 
 

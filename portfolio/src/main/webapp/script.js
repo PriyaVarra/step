@@ -12,20 +12,50 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
+
+
 /**
  * Adds a random greeting to the page.
  */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+function changePhoto(dir) {
+    // Image captions
+    var captions = ["This is Snugglebuns! She is a winter white dwarf hamster, and she was my first pet.", "An up close view of the eruption of Kileaua on Big Island in 2018 "]
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
 
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+    // Get current image id
+    const curr_img = document.getElementById("current_image").src;
+    var id = parseInt(curr_img.charAt(curr_img.length - 5));
+
+    console.log("Current image " + curr_img);
+    // Compute id of previous image
+    id = id + dir;
+
+    if (id < 0) {
+        id = 4;
+    }
+
+    if (id > 4) {
+        id = 0;
+    }
+
+    
+    // Create new image element
+    const prev_img_src = "gallery/gallery" + id + ".jpg";
+    const imgElement = document.createElement('img');
+    imgElement.src = prev_img_src;
+    imgElement.id = "current_image";
+    imgElement.width = "600";
+    imgElement.height = "450";
+
+    const imageContainer = document.getElementById('img-container');
+    // Remove the previous image.
+    imageContainer.innerHTML = '';
+    imageContainer.appendChild(imgElement);
 }
+
+
+
 
 /**
  * Functions from w3css

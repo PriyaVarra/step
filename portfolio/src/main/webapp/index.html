@@ -53,11 +53,14 @@ body {font-size:16px;}
   	<h1 class="w3-jumbo"><b>Welcome to My Portfolio!</b></h1>
     <h1 class="w3-xxxlarge w3-text-teal"><b>About Me</b></h1>
     <hr style="width:50px;border:5px solid teal" class="w3-round">
-    <p>We are a interior design service that focus on what's best for your home and what's best for you!</p>
-    <p>Some text about our services - what we do and what we offer. We are lorem ipsum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-    dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor
-    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    </p>
+    <div class="w3-row">
+         <div class="w3-col m3 w3-margin-bottom">
+            <img style='border: 15px solid #008080' src='images/web_pic.jpg'  height = "350">
+        </div>    
+        <div class="w3-col m9 w3-margin-bottom">
+            <h4> This is some information about me!</h4>
+        </div>    
+    </div>    
   </div>
   
   <!-- Projects -->
@@ -70,15 +73,15 @@ body {font-size:16px;}
   </div>
 
   <!-- The Projects -->
-  <div class="w3-row-padding w3-grayscale">
+  <div class="w3-row-padding">
     <div class="w3-col m4 w3-margin-bottom">
       <div class="w3-light-grey">
         <img src="images/spectral.png" alt="Spectral" style="width:100%">
         <div class="w3-container">
-          <h3>Spectral Clustering: A Python Implementation </h3>
-          <p class="w3-opacity">Matrices and Linear Transformations - Fall 2018 &nbsp <a href="https://github.com/PriyaVarra/Spectral-Clustering-A-Python-Implementation"> <img src="images/GitHub-Mark-32px.png" width="32" height="32"> </a>
+          <h4>Spectral Clustering: A Python Implementation </h4>
+          <p class="w3-opacity">Linear Algebra - Fall 2018 &nbsp <a href="https://github.com/PriyaVarra/Spectral-Clustering-A-Python-Implementation"> <img src="images/GitHub-Mark-32px.png" width="32" height="32"> </a>
           </p>   
-          <p> Spectral clustering is an unsupervised learning algorithm that clusters data by performing dimensionality reduction before clustering the resulting lower-dimensional data. In this project, my partner and I used Python to reduce dimensionality by constructing a similarity matrix from our data and taking its top eigenvectors. We then implemented k-means clustering and ran it on the selected eigenvectors to produce clusters for the original data. </p>
+          <p> Spectral clustering is an unsupervised learning algorithm that clusters data by performing dimensionality reduction before clustering the resulting lower-dimensional data. In this project, we used Python to reduce dimensionality by constructing a similarity matrix from our data and taking its top eigenvectors. We then implemented k-means clustering and ran it on the selected eigenvectors to produce clusters for the original data. </p>
         </div>
       </div>
     </div>
@@ -87,8 +90,8 @@ body {font-size:16px;}
       <div class="w3-light-grey">
         <img src="images/Figure2.png" alt="wbc" style="width:100%">
         <div class="w3-container">
-          <h3> White Blood Cell Image Classification </h3>
-          <p class="w3-opacity">Great Ideas in Computational Biology - Spring 2019 &nbsp <a href="https://github.com/PriyaVarra/Classifying-White-Blood-Cell-Images-Using-Deep-Learning"> <img src="images/GitHub-Mark-32px.png" width="32" height="32"> </a> </p>
+          <h4> White Blood Cell Image Classification </h4>
+          <p class="w3-opacity">Computational Biology - Spring 2019 &nbsp <a href="https://github.com/PriyaVarra/Classifying-White-Blood-Cell-Images-Using-Deep-Learning"> <img src="images/GitHub-Mark-32px.png" width="32" height="32"> </a> </p>
           <p> In this project, I attempted to create a computational model capable of classifying an image of a stained white blood cell into one of the four major types of white blood cells. Specifically, I used Python to preprocess a set of publicly available training images before using Tensorflow and Keras to create, train, and test three convolutional neural networks with the best model achieving an accuracy of 78%.   </p>
         </div>
       </div>
@@ -98,10 +101,10 @@ body {font-size:16px;}
       <div class="w3-light-grey">
         <img src="images/array_bounds_example.png" alt="array" style="width:100%">
         <div class="w3-container">
-          <h3>Array Bounds Checking for Java</h3>
+          <h4>Range Analysis for Array Bounds Checking in Java</h4>
           <p class="w3-opacity">Program Analysis - Spring 2020 &nbsp <a href="https://github.com/PriyaVarra/Context-Sensitive-Interprocedural-Range-Analysis-for-Java"> <img src="images/GitHub-Mark-32px.png" width="32" height="32"> </a></p>
           <p> In this project, I designed and implemented a context-sensitive interprocedural dataflow analysis that tracks the possible values of integer variables during program execution for Jimple -an intermediate representation of Java bytecode provided by the Soot framework. 
-              I utilized information collected in this analysis to provide errors and warnings about negative and out of bounds array accesses for Java code samples. </p>
+              I utilized this analysis to provide errors and warnings about negative and out of bounds array accesses for Java code samples. </p>
         </div>
       </div>
     </div>

@@ -1,45 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <title>Priya Varra</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="script.js"></script>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-<style>
-body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
-body {font-size:16px;}
-.w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}
-.w3-half img:hover{opacity:1}
-</style>
-<body>
 
+<style>
+    body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+    body {font-size:16px;}
+    .w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}
+    .w3-half img:hover{opacity:1}
+</style>
+
+<body>
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-teal w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
-  <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
-  <div class="w3-container">
-  <div class="w3-padding-64">  
-    <h1><b>Priya Varra </b> </h1>
-    <a href="https://www.github.com/PriyaVarra"> <img src="images/GitHub-Mark-Light-32px.png" width="32" height="32"> </a>
-    <a href="https://www.linkedin.com/in/priya-varra-26a54b124"> <img src="images/linkedin-3-32.png" width="32" height="32"> </a>
-    <a href="https://drive.google.com/file/d/1M1oxlrefr0qh1nMibwMRh8ZRyqoYh0HE/view?usp=sharing"> <img src="images/report-3-32.png" width="32" height="32"> </a>
     
-</div>
-</div>
+    <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+    <div class="w3-container">
+        <div class="w3-padding-64">  
+            <h1><b>Priya Varra </b> </h1>
+            <a href="https://www.github.com/PriyaVarra"> <img src="images/GitHub-Mark-Light-32px.png" width="32" height="32"> </a>
+            <a href="https://www.linkedin.com/in/priya-varra-26a54b124"> <img src="images/linkedin-3-32.png" width="32" height="32"> </a>
+            <a href="https://drive.google.com/file/d/1M1oxlrefr0qh1nMibwMRh8ZRyqoYh0HE/view?usp=sharing"> <img src="images/report-3-32.png" width="32" height="32"> </a>    
+        </div>
+    </div>
 
-  <div class="w3-bar-block">
-    <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">About Me</a> 
-    <a href="#projects" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Projects</a> 
-    <a href="#hobbies" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white"> Hobbies</a> 
-    <a href="#gallery" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white"> Gallery</a>
-  </div>
+    <div class="w3-bar-block">
+        <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">About Me</a> 
+        <a href="#projects" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Projects</a> 
+        <a href="#hobbies" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white"> Hobbies</a> 
+        <a href="#gallery" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white"> Gallery</a>
+    </div>
+
 </nav>
 
 <!-- Top menu on small screens -->
 <header class="w3-container w3-top w3-hide-large w3-teal w3-xlarge w3-padding">
-  <a href="javascript:void(0)" class="w3-button w3-teal w3-margin-right" onclick="w3_open()">☰</a>
-  <span>Priya Varra</span>
+    <a href="javascript:void(0)" class="w3-button w3-teal w3-margin-right" onclick="w3_open()">☰</a>
+    <span>Priya Varra</span>
 </header>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -48,123 +51,158 @@ body {font-size:16px;}
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:340px;margin-right:40px">
 
+    <!-- About Me -->
+    <div class="w3-container" id="about" style="margin-top:75px">
+        <h1 class="w3-jumbo"><b>Welcome to My Portfolio!</b></h1>
+        <h1 class="w3-xxxlarge w3-text-teal"><b>About Me</b></h1>
+        <hr style="width:50px;border:5px solid teal" class="w3-round">
+        
+        <div class="w3-row">
+            <div class="w3-col m3 w3-margin-bottom">
+                <img style="border: 15px solid #008080" src="images/web_pic.jpg"  height = "350">
+            </div>    
+            
+            <div class="w3-col m9 w3-margin-bottom">
+                <h4> Hi! My name is Priya, and I am a rising junior at Carnegie Mellon University studying computer science with a concentration in computational biology.
+                </h4>
+                <h4>
+                    Ever since I took my first coding class my junior year of high school, I have been fascinated by the application of programming, math,
+                    and logic to solve complex, real-world problems. Through internships and my coursework at CMU, I have had the opportunity to further
+                    explore the field of computer science and develop my interest and skills in software development, data science, and machine learning.       
+                </h4>
 
-  <!-- About Me -->
-  <div class="w3-container" id="about" style="margin-top:75px">
-  	<h1 class="w3-jumbo"><b>Welcome to My Portfolio!</b></h1>
-    <h1 class="w3-xxxlarge w3-text-teal"><b>About Me</b></h1>
-    <hr style="width:50px;border:5px solid teal" class="w3-round">
-    <div class="w3-row">
-         <div class="w3-col m3 w3-margin-bottom">
-            <img style="border: 15px solid #008080" src="images/web_pic.jpg"  height = "350">
-        </div>    
-        <div class="w3-col m9 w3-margin-bottom">
-            <h4> Hi! My name is Priya, and I am a rising junior at Carnegie Mellon University studying computer science with a concentration in computational biology.
-            </h4>
-            <h4>
-                Ever since I took my first coding class my junior year of high school, I have been fascinated by the application of programming, math,
-                and logic to solve complex, real-world problems. Through internships and my coursework at CMU, 
-                I have had the opportunity to further explore the field of computer science and develop my interest and skills in software development, data science, and machine learning.       
-            </h4>
+                <h4>
+                    Outside of computer science, my interests include playing music and tennis, dancing, and, as of late, biking. Check out the hobbies 
+                    section to learn more! I also enjoy swimming, especially since I live in Phoenix, and it's one of the only enjoyable outdoor activities
+                    in the 115 &deg F summer heat.
+                </h4>    
+            </div>
 
-            <h4>
-                Outside of computer science, my interests include playing music and tennis, dancing, and, as of late, biking. Check out the hobbies section to learn more! 
-                I also enjoy swimming, especially since I live in Phoenix, and it's one of the only enjoyable outdoor activities in the 115 &deg F summer heat.
-             </h4>
+        </div> 
+
+    </div>
+  
+    <!-- Projects -->
+    <div class="w3-container" id="projects" style="margin-top:75px">
+        <h1 class="w3-xxxlarge w3-text-teal"><b>Projects</b></h1>
+        <hr style="width:50px;border:5px solid teal" class="w3-round">
+        
+        <h4>  
+            During my time so far at Carnegie Mellon University, I have had the wonderful opportunity to take courses covering a wide range of fascinating topics
+            in the field of computer science. Many of these courses have culminated with a final project, where I have been able to gain a deeper understanding of 
+            the course concepts by researching, designing, and implementing algorithms and analyses on real-world data and frameworks.     
+        </h4>
+    </div>
+
+    <!-- The Projects -->
+    <div class="w3-row-padding">
+        <div class="w3-col m4 w3-margin-bottom">
+            <div class="w3-light-grey">
+                <img src="images/spectral.png" alt="spectral" style="width:100%; border: 10px solid #008080">
+                <div class="w3-container">
+
+                <h4>Spectral Clustering: A Python Implementation </h4>
                 
-        </div>    
-    </div>    
-  </div>
+                <p class="w3-opacity"> Linear Algebra - Fall 2018 &nbsp <a href="https://github.com/PriyaVarra/Spectral-Clustering-A-Python-Implementation"> 
+                <img src="images/GitHub-Mark-32px.png" width="32" height="32"> </a> 
+                </p> 
+
+                <p> 
+                    Spectral clustering is an unsupervised learning algorithm that clusters data by performing dimensionality reduction before clustering the resulting
+                    lower-dimensional data. In this project, we used Python to reduce dimensionality by constructing a similarity matrix from our data and taking its top 
+                    eigenvectors. We then implemented k-means clustering and ran it on the selected eigenvectors to produce clusters for the original data.
+                </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-col m4 w3-margin-bottom">
+            <div class="w3-light-grey">
+                <img src="images/Figure2.png" alt="wbc" style="width:100%; border: 10px solid #008080">
+                <div class="w3-container">
+
+                <h4> White Blood Cell Image Classification </h4>
+
+                <p class="w3-opacity">Computational Biology - Spring 2019 &nbsp <a href="https://github.com/PriyaVarra/Classifying-White-Blood-Cell-Images-Using-Deep-Learning">
+                <img src="images/GitHub-Mark-32px.png" width="32" height="32"> </a>
+                </p>
+
+                <p> 
+                    In this project, I attempted to create a computational model capable of classifying an image of a stained white blood cell into one of the four major
+                    types of white blood cells. Specifically, I used Python to preprocess a set of publicly available training images before using Tensorflow and Keras 
+                    to create, train, and test three convolutional neural networks with the best model achieving an accuracy of 78%. 
+                </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-col m4 w3-margin-bottom">
+            <div class="w3-light-grey">
+                <img src="images/array_bounds_example.png" alt="array" style="width:100%; border: 10px solid #008080">
+                <div class="w3-container">
+       
+                <h4>Range Analysis for Array Bounds Checking in Java</h4>
+       
+                <p class="w3-opacity">Program Analysis - Spring 2020 &nbsp <a href="https://github.com/PriyaVarra/Context-Sensitive-Interprocedural-Range-Analysis-for-Java"> 
+                <img src="images/GitHub-Mark-32px.png" width="32" height="32"> </a>
+                </p>
+
+                <p>
+                    In this project, I designed and implemented a context-sensitive interprocedural dataflow analysis that tracks the possible values of integer variables
+                    during program execution for Jimple -an intermediate representation of Java bytecode provided by the Soot framework. I utilized this analysis to provide 
+                    errors and warnings about negative and out of bounds array accesses for Java code samples.
+                </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
   
-  <!-- Projects -->
-  <div class="w3-container" id="projects" style="margin-top:75px">
-    <h1 class="w3-xxxlarge w3-text-teal"><b>Projects</b></h1>
-    <hr style="width:50px;border:5px solid teal" class="w3-round">
-    <h4>  During my time so far at Carnegie Mellon University, I have had the wonderful opportunity to take courses covering a wide range of fascinating topics in the field of computer science.
-         Many of these courses have culminated with a final project, where I have been able to gain a deeper understanding of the course concepts by researching, designing, and implementing algorithms and analyses on real-world data and frameworks.     
-     </h4>
-
-  </div>
-
-  <!-- The Projects -->
-  <div class="w3-row-padding">
-    <div class="w3-col m4 w3-margin-bottom">
-      <div class="w3-light-grey">
-        <img src="images/spectral.png" alt="spectral" style="width:100%; border: 10px solid #008080">
-        <div class="w3-container">
-          <h4>Spectral Clustering: A Python Implementation </h4>
-          <p class="w3-opacity">Linear Algebra - Fall 2018 &nbsp <a href="https://github.com/PriyaVarra/Spectral-Clustering-A-Python-Implementation"> <img src="images/GitHub-Mark-32px.png" width="32" height="32"> </a>
-          </p>   
-          <p> Spectral clustering is an unsupervised learning algorithm that clusters data by performing dimensionality reduction before clustering the resulting lower-dimensional data. In this project, we used Python to reduce dimensionality by constructing a similarity matrix from our data and taking its top eigenvectors. We then implemented k-means clustering and ran it on the selected eigenvectors to produce clusters for the original data. </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="w3-col m4 w3-margin-bottom">
-      <div class="w3-light-grey">
-        <img src="images/Figure2.png" alt="wbc" style="width:100%; border: 10px solid #008080">
-        <div class="w3-container">
-          <h4> White Blood Cell Image Classification </h4>
-          <p class="w3-opacity">Computational Biology - Spring 2019 &nbsp <a href="https://github.com/PriyaVarra/Classifying-White-Blood-Cell-Images-Using-Deep-Learning"> <img src="images/GitHub-Mark-32px.png" width="32" height="32"> </a> </p>
-          <p> In this project, I attempted to create a computational model capable of classifying an image of a stained white blood cell into one of the four major types of white blood cells. Specifically, I used Python to preprocess a set of publicly available training images before using Tensorflow and Keras to create, train, and test three convolutional neural networks with the best model achieving an accuracy of 78%.   </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="w3-col m4 w3-margin-bottom">
-      <div class="w3-light-grey">
-        <img src="images/array_bounds_example.png" alt="array" style="width:100%; border: 10px solid #008080">
-        <div class="w3-container">
-          <h4>Range Analysis for Array Bounds Checking in Java</h4>
-          <p class="w3-opacity">Program Analysis - Spring 2020 &nbsp <a href="https://github.com/PriyaVarra/Context-Sensitive-Interprocedural-Range-Analysis-for-Java"> <img src="images/GitHub-Mark-32px.png" width="32" height="32"> </a></p>
-          <p> In this project, I designed and implemented a context-sensitive interprocedural dataflow analysis that tracks the possible values of integer variables during program execution for Jimple -an intermediate representation of Java bytecode provided by the Soot framework. 
-              I utilized this analysis to provide errors and warnings about negative and out of bounds array accesses for Java code samples. </p>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Hobbies -->
-  <div class="w3-container" id="hobbies" style="margin-top:75px">
+    <!-- Hobbies -->
+    <div class="w3-container" id="hobbies" style="margin-top:75px">
     <h1 class="w3-xxxlarge w3-text-teal"><b>Hobbies</b></h1>
     <hr style="width:50px;border:5px solid teal" class="w3-round">
-    <p>Do you want us to style your home? Fill out the form and fill me in with the details :) We love meeting new people!</p>
-    <form action="/action_page.php" target="_blank">
-      <div class="w3-section">
-        <label>Name</label>
-        <input class="w3-input w3-border" type="text" name="Name" required>
-      </div>
-      <div class="w3-section">
-        <label>Email</label>
-        <input class="w3-input w3-border" type="text" name="Email" required>
-      </div>
-      <div class="w3-section">
-        <label>Message</label>
-        <input class="w3-input w3-border" type="text" name="Message" required>
-      </div>
-      <button type="submit" class="w3-button w3-block w3-padding-large w3-teal w3-margin-bottom">Send Message</button>
-    </form>  
-  </div>
+    
+        <div class="w3-row-padding" >
+            
+            <div class="w3-col m4 w3-margin-bottom">
+                <img src="images/tennis.jpg" alt="spectral" style="width:100%; border: 10px solid #008080">
+                <h4 class="w3-center"> Tennis </h4>
+            </div>
+            
+            <div class="w3-col m4 w3-margin-bottom">
+                <img src="images/orchestra.jpg" alt="spectral" style="width:100%; border: 10px solid #008080">
+                <h4 class="w3-center"> Music </h4>
+            </div>
+            
+            <div class="w3-col m4 w3-margin-bottom">
+                <img src="images/bharatanatyam.jpg" alt="spectral" style="width:100%; border:10px solid #008080">
+                <h4 class="w3-center"> Bharatanatyam </h4>
+            </div>
 
-  <!-- Gallery -->
-  <div class="w3-container" style="margin-top:80px" id="gallery">
-    <h1 class="w3-xxxlarge w3-text-teal"><b>Gallery</b></h1>
-    <hr style="width:50px;border:5px solid teal" class="w3-round">
-  </div>
-  
-    <!-- Gallery Images -->    
-    <div class="w3-container w3-center" id="img-container">
-      <img id="current_image" src="gallery/gallery0.jpg" width="600" height="450" style="border: 15px solid #008080">
-      <h4> This is Snugglebuns! A winter white dwarf hamster and my first pet. </h4>
+        </div>
+
     </div>
 
-    <!-- Previous and Next Buttons -->   
-    <div class="w3-container w3-padding w3-center"> 
-        <button class="w3-button w3-teal" onclick="changePhoto(-1)"> &#8592 </button>
-        &nbsp 
-        <button class="w3-button w3-teal" onclick="changePhoto(1)"> &#8594 </button>
-    </div> 
+    <!-- Gallery -->
+    <div class="w3-container" style="margin-top:80px" id="gallery">
+        <h1 class="w3-xxxlarge w3-text-teal"><b>Gallery</b></h1>
+        <hr style="width:50px;border:5px solid teal" class="w3-round">
+ 
+        <!-- Gallery Images -->    
+        <div class="w3-container w3-center" id="img-container">
+            <img id="current_image" src="gallery/gallery0.jpg" width="600" height="450" style="border: 15px solid #008080">
+            <h4> This is Snugglebuns! A winter white dwarf hamster and my first pet. </h4>
+        </div>
 
+        <!-- Previous and Next Buttons -->   
+        <div class="w3-container w3-padding w3-center"> 
+            <button class="w3-button w3-teal" onclick="changePhoto(-1)"> &#8592 </button>
+            &nbsp 
+            <button class="w3-button w3-teal" onclick="changePhoto(1)"> &#8594 </button>
+        </div> 
+    </div>
+  
 <!-- End page content -->
 </div>
 

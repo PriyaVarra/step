@@ -57,7 +57,7 @@
         <h1 class="w3-xxxlarge w3-text-teal"><b>About Me</b></h1>
         <hr style="width:50px;border:5px solid teal" class="w3-round">
         
-        <div class="w3-row">
+        <div class="w3-container w3-row">
             <div class="w3-col m3 w3-margin-bottom">
                 <img style="border: 15px solid #008080" src="images/web_pic.jpg"  height = "350">
             </div>    
@@ -73,7 +73,7 @@
 
                 <h4>
                     Outside of computer science, my interests include playing music and tennis, dancing, and, as of late, biking. Check out the hobbies 
-                    section to learn more! I also enjoy swimming, especially since I live in Phoenix, and it's one of the only enjoyable outdoor activities
+                    section to learn more! I also enjoy swimming, especially since I am from Phoenix, and it's one of the only enjoyable outdoor activities
                     in the 115 &deg F summer heat.
                 </h4>    
             </div>
@@ -162,22 +162,32 @@
     <div class="w3-container" id="hobbies" style="margin-top:75px">
     <h1 class="w3-xxxlarge w3-text-teal"><b>Hobbies</b></h1>
     <hr style="width:50px;border:5px solid teal" class="w3-round">
-    
+    <h4 class="w3-center"> In my free time, I enjoy playing tennis, playing music, and dancing. Click on each image to learn more! </h4>
+
         <div class="w3-row-padding" >
             
             <div class="w3-col m4 w3-margin-bottom">
-                <img src="images/tennis.jpg" alt="spectral" style="width:100%; border: 10px solid #008080">
+                <img src="images/tennis.jpg"  onclick=onClick(this) alt="I played tennis" style="width:100%; border: 10px solid #008080">
                 <h4 class="w3-center"> Tennis </h4>
             </div>
             
             <div class="w3-col m4 w3-margin-bottom">
-                <img src="images/orchestra.jpg" alt="spectral" style="width:100%; border: 10px solid #008080">
+                <img src="images/orchestra.jpg" onclick=onClick(this) alt="I like music" style="width:100%; border: 10px solid #008080">
                 <h4 class="w3-center"> Music </h4>
             </div>
             
             <div class="w3-col m4 w3-margin-bottom">
-                <img src="images/bharatanatyam.jpg" alt="spectral" style="width:100%; border:10px solid #008080">
+                <img src="images/bharatanatyam.jpg" onclick=onClick(this) alt="I did bharatanatyam" style="width:100%; border:10px solid #008080">
                 <h4 class="w3-center"> Bharatanatyam </h4>
+            </div>
+
+            <!-- Modal for full size images on click-->
+            <div id="modal01" class="w3-modal w3-black" style="padding-top:0" onclick="this.style.display='none'">
+                <span class="w3-button w3-black w3-xxlarge w3-display-topright">×</span>
+                <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
+                    <img id="img01" class="w3-image" width="750" height="500">
+                    <p id="caption"></p>
+                </div>
             </div>
 
         </div>

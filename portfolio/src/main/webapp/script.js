@@ -13,10 +13,10 @@
 // limitations under the License.
 
 
-
-
 /**
- * Adds a random greeting to the page.
+ * Changes image and updates caption in gallery section
+ * dir = 1 goes to next image
+ * dir = -1 goes to previous image
  */
 function changePhoto(dir) {
     // Image captions
@@ -56,6 +56,7 @@ function changePhoto(dir) {
     imgElement.id = "current_image";
     imgElement.width = widths[id];
     imgElement.height = "450";
+    imgElement.style = "border: 15px solid #008080";
 
     // Create new caption element
     const capElement = document.createElement("h4");
@@ -69,12 +70,10 @@ function changePhoto(dir) {
     imageContainer.appendChild(capElement)
 }
 
-
-
-
 /**
- * Functions from w3css
+ * Functions from w3CSS: https://www.w3schools.com/w3css/w3css_templates.asp
  */
+
 // Script to open and close sidebar
 function w3_open() {
   document.getElementById("mySidebar").style.display = "block";

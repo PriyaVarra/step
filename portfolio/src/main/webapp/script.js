@@ -19,7 +19,6 @@
  * dir = -1 goes to previous image
  */
 function changePhoto(dir) {
-
     // Image captions
     var captions = ["This is Snugglebuns! A winter white dwarf hamster and my first pet.",
                     "An up close view from a boat tour of the eruption of Kileaua on Big Island in 2018.",

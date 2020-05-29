@@ -12,20 +12,65 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
+
+
 /**
  * Adds a random greeting to the page.
  */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+function changePhoto(dir) {
+    // Image captions
+    var captions = ["This is Snugglebuns! A winter white dwarf hamster and my first pet.",
+                    "An up close view from a boat tour of the eruption of Kileaua on Big Island in 2018.",
+                    "A picturesque view of Geirangerfjord on a road trip in Norway.",
+                    "Taking in the sights at the Taj Mahal.",
+                    "My sister and I enjoying ourselves in Oslo",
+                    "\"Sledding\"  at White Sands National Park in New Mexico"]
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+    // Image widths
+    var widths = ["600", "600", "600", "350", "600", "600"]
 
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+    // Get current image id
+    const curr_img = document.getElementById("current_image").src;
+    var id = parseInt(curr_img.charAt(curr_img.length - 5));
+
+    console.log("Current image " + curr_img);
+    
+    // Compute id of new image
+    id = id + dir;
+
+    if (id < 0) {
+        id = 5;
+    }
+
+    if (id > 5) {
+        id = 0;
+    }
+
+    
+    // Create new image element
+    const prev_img_src = "gallery/gallery" + id + ".jpg";
+
+    const imgElement = document.createElement("img");
+    imgElement.src = prev_img_src;
+    imgElement.id = "current_image";
+    imgElement.width = widths[id];
+    imgElement.height = "450";
+
+    // Create new caption element
+    const capElement = document.createElement("h4");
+    var capNode = document.createTextNode(captions[id]);
+    capElement.appendChild(capNode);
+
+    // Remove previous image and caption and add new image and caption. 
+    const imageContainer = document.getElementById("img-container");
+    imageContainer.innerHTML = '';
+    imageContainer.appendChild(imgElement);
+    imageContainer.appendChild(capElement)
 }
+
+
+
 
 /**
  * Functions from w3css

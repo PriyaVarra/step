@@ -19,28 +19,55 @@
  * Fetches comments from the server and adds it to the DOM
  */
 function getComments() {
-    fetch("/data").then(response => response.json()).then((commentsData) => {
+    fetch("/comments").then(response => response.json()).then((commentsData) => {
         const commentsContainer = document.getElementById("comments-container");
         commentsContainer.innerHTML = '';
         for (var i = 0; i < commentsData.length; i++) {
             var commentData = commentsData[i];
 
-            // Create new comment element
-            var boldElement = document.createElement("b");
-            var boldNode = document.createTextNode("Comment " + (i + 1) + " - ");
-            boldElement.appendChild(boldNode);
+            // Create new comment elements
+            var commentHeader = createCommentHeader(commentData);
+            var commentContent = createCommentContent(commentData);
 
-            var commentElement = document.createElement("h4");
-            var textNode = document.createTextNode(commentData.comment);
-            commentElement.appendChild(boldElement);
-            commentElement.appendChild(textNode);
-
-            // Add new comment element to comments section
-            commentsContainer.appendChild(commentElement);
+            // Add new comment to comments section
+            commentsContainer.appendChild(commentHeader);
+            commentsContainer.appendChild(commentContent);
         }
     });
+
 }
 
+/* Creates header for comment containing name in bold and timestamp in italics */
+function createCommentHeader(commentData) {
+    var headerElement = document.createElement("h4");
+    
+    var nameElement = document.createElement("b");
+    nameElement.appendChild(document.createTextNode(commentData.name));
+
+    var sep = document.createTextNode(" ~ ");
+
+    var tsElement = document.createElement("i");
+    tsElement.appendChild(document.createTextNode(commentData.timeStamp));
+
+    headerElement.appendChild(nameElement);
+    headerElement.appendChild(sep);
+    headerElement.appendChild(tsElement);
+    
+    return headerElement;
+}
+
+/* Creates element for comment content */
+function createCommentContent(commentData) {
+    var contentElement = document.createElement("h5");
+    contentElement.appendChild(document.createTextNode(commentData.comment));
+
+    // Add blank line after comment
+    var brElement = document.createElement("br");
+    contentElement.appendChild(brElement.cloneNode(true));
+    contentElement.appendChild(brElement.cloneNode(true)); 
+
+    return contentElement;
+}
 
 /**
  * Changes image and updates caption in gallery section
@@ -54,7 +81,7 @@ function changePhoto(dir) {
                     "A picturesque view of Geirangerfjord on a road trip in Norway.",
                     "Taking in the sights at the Taj Mahal.",
                     "My sister and I enjoying ourselves in Oslo",
-                    "\"Sledding\"  at White Sands National Park in New Mexico"]
+                    "\"Sledding\" at White Sands National Park in New Mexico"]
 
     // Image widths
     var widths = ["600", "600", "600", "350", "600", "600"]

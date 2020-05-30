@@ -15,7 +15,7 @@
     .w3-half img:hover{opacity:1}
 </style>
 
-<body onload="getData()">
+<body onload="getComments()">
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-teal w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
@@ -35,6 +35,7 @@
         <a href="#projects" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Projects</a> 
         <a href="#hobbies" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white"> Hobbies</a> 
         <a href="#gallery" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white"> Gallery</a>
+        <a href="#comments" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white"> Comments</a>
     </div>
 
 </nav>
@@ -54,9 +55,6 @@
     <!-- About Me -->
     <div class="w3-container" id="about" style="margin-top:75px">
         <h1 class="w3-jumbo"><b>Welcome to My Portfolio!</b></h1>
-
-        <!-- Displays data fetched from /data URL -->
-        <div class="w3-container" id="data"> </div>
 
         <h1 class="w3-xxxlarge w3-text-teal"><b>About Me</b></h1>
         <hr style="width:50px;border:5px solid teal" class="w3-round">
@@ -224,6 +222,14 @@
             &nbsp 
             <button class="w3-button w3-teal" onclick="changePhoto(1)"> &#8594 </button>
         </div> 
+    </div>
+
+    <!-- Comments -->
+    <div class="w3-container" style="margin-top:80px" id="comments">
+        <h1 class="w3-xxxlarge w3-text-teal"><b>Comments</b></h1>
+        <hr style="width:50px;border:5px solid teal" class="w3-round">
+
+        <div class="w3-container" id="comments-container"> </div>
     </div>
   
 <!-- End page content -->

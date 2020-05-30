@@ -12,12 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
+
+
 /**
- * Fetches greeting from the server and adds it to the DOM
+ * Fetches comments from the server and adds it to the DOM
  */
-function getData() {
-    fetch("/data").then(response => response.text()).then((data) => {document.getElementById("data").innerHTML = data});
+function getComments() {
+    fetch("/data").then(response => response.json()).then((commentsData) => {
+        const commentsContainer = document.getElementById("comments-container");
+        commentsContainer.innerHTML = '';
+        for (var i = 0; i < commentsData.length; i++) {
+            var commentData = commentsData[i];
+
+            // Create new comment element
+            var boldElement = document.createElement("b");
+            var boldNode = document.createTextNode("Comment " + (i + 1) + " - ");
+            boldElement.appendChild(boldNode);
+
+            var commentElement = document.createElement("h4");
+            var textNode = document.createTextNode(commentData.comment);
+            commentElement.appendChild(boldElement);
+            commentElement.appendChild(textNode);
+
+            // Add new comment element to comments section
+            commentsContainer.appendChild(commentElement);
+        }
+    });
 }
+
 
 /**
  * Changes image and updates caption in gallery section

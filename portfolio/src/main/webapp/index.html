@@ -230,6 +230,26 @@
         <hr style="width:50px;border:5px solid teal" class="w3-round">
 
         <div class="w3-container" id="comments-container"> </div>
+
+        <div class="w3-container w3-border w3-border-teal" id="comments-input"> 
+        <h4 class="w3-center"> <b> Fill out the form to leave a comment! <b> </h4>
+            <form action="/comments" method="POST">
+                <div class="w3-section">
+                    <label>Name</label>
+                    <input class="w3-input w3-border" type="text" name="Name" required>
+                </div>
+
+                <div class="w3-section">
+                    <label>Comment</label>
+                    <input class="w3-input w3-border" type="text" name="Comment" required>
+                </div>
+                
+                <div class="w3-center">
+                <button type="submit" class="w3-button w3-block w3-padding-large w3-teal w3-margin-bottom">Comment</button>
+                </div>
+                
+            </form> 
+        </div>    
     </div>
   
 <!-- End page content -->

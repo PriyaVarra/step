@@ -22,28 +22,45 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.text.*;
 
 /** Servlet that returns some example comments. */
-@WebServlet("/data")
+@WebServlet("/comments")
 public class DataServlet extends HttpServlet {
 
-  private final List<String> comments = new ArrayList<String>(Arrays.asList("Hello!", "I hope everyone is doing well!", "Stay safe!"));
+  private final List<CommentData> commentsData = new ArrayList<CommentData>();
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+      // Populate data for comment and add to list 
+      CommentData commentData = createCommentData(request);
+      commentsData.add(commentData);
+
+      // Redirect back to the HTML page
+      response.sendRedirect("/index.html");
+  }
+  
+  /* Creates CommentData object containing name, comment, and date and time of comment */
+  private CommentData createCommentData(HttpServletRequest request) {
+      // Create timestamp with date and time from comment
+      Date date = new Date();
+      SimpleDateFormat sdf = new SimpleDateFormat ("MM/dd/yyyy  hh:mm a");
+      String timeStamp = sdf.format(date);
+
+      // Get name and comment from form
+      String name = request.getParameter("Name");
+      String comment = request.getParameter("Comment");
+
+      return new CommentData(name, comment, timeStamp);
+  }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    /* Create list of objects containing data for each comment */
-    List<CommentData> commentsData = new ArrayList<CommentData>();
-    
-    for (String comment : comments) {
-        CommentData commentData = new CommentData(comment);
-        commentsData.add(commentData);
-    }
-    
-    /* Create json string from list of commentData objects */
+    // Create json string from list of commentData objects 
     Gson gson = new Gson();
     String json = gson.toJson(commentsData);
 
-    /* Write json string to response */
+    // Write json string to response 
     response.setContentType("application/json");
     response.getWriter().println(json);
   }

@@ -14,15 +14,17 @@
 
 package com.google.sps.servlets;
 
-import com.google.sps.data.CommentData;
+
 import com.google.gson.Gson;
+import com.google.sps.data.CommentData;
 import java.io.IOException;
+import java.text.*;
+import java.util.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
-import java.text.*;
+
 
 /** Servlet that returns some example comments. */
 @WebServlet("/comments")

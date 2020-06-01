@@ -17,6 +17,9 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
 import com.google.sps.data.CommentData;
 import java.io.IOException;
@@ -32,23 +35,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/comments")
 public class DataServlet extends HttpServlet {
 
-  private final List<CommentData> commentsData = new ArrayList<CommentData>();
-
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-      // Populate data for comment and add to list 
-      CommentData commentData = createCommentData(request);
-      commentsData.add(commentData);
-
-      // Redirect back to the HTML page
-      response.sendRedirect("/index.html");
-  }
-  
-  /* Creates CommentData object containing name, comment, and date and time of comment */
-  private CommentData createCommentData(HttpServletRequest request) {
       // Create timestamp with date and time from comment
       Date date = new Date();
-      SimpleDateFormat sdf = new SimpleDateFormat ("MM/dd/yyyy  hh:mm a");
+      SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy  hh:mm a");
       String timeStamp = sdf.format(date);
 
       // Get name and comment from form
@@ -64,11 +55,29 @@ public class DataServlet extends HttpServlet {
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
       datastore.put(commentDataEntity);
 
-      return new CommentData(name, comment, timeStamp);
+      // Redirect back to HTML page
+      response.sendRedirect("/index.html");
   }
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {    
+    // Load all comments from datastore, sorted by time posted
+    Query query = new Query("CommentData").addSort("timeStamp", SortDirection.DESCENDING);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+
+    // Create commentData object for each stored comment and store in list
+    List<CommentData> commentsData = new ArrayList<>();
+    for (Entity entity : results.asIterable()) {
+      String name = (String) entity.getProperty("name");
+      String comment = (String) entity.getProperty("comment");
+      String timeStamp = (String) entity.getProperty("timeStamp");
+
+      CommentData commentData = new CommentData(name, comment, timeStamp);
+      commentsData.add(commentData);
+    }
+    
     // Create json string from list of commentData objects 
     Gson gson = new Gson();
     String json = gson.toJson(commentsData);

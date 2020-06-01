@@ -22,12 +22,12 @@ function getComments() {
     fetch("/comments").then(response => response.json()).then((commentsData) => {
         const commentsContainer = document.getElementById("comments-container");
         commentsContainer.innerHTML = '';
-        for (var i = 0; i < commentsData.length; i++) {
-            var commentData = commentsData[i];
+        for (const i = 0; i < commentsData.length; i++) {
+            const commentData = commentsData[i];
 
             // Create new comment elements
-            var commentHeader = createCommentHeader(commentData);
-            var commentContent = createCommentContent(commentData);
+            const commentHeader = createCommentHeader(commentData);
+            const commentContent = createCommentContent(commentData);
 
             // Add new comment to comments section
             commentsContainer.appendChild(commentHeader);
@@ -39,14 +39,14 @@ function getComments() {
 
 /* Creates header for comment containing name in bold and timestamp in italics */
 function createCommentHeader(commentData) {
-    var headerElement = document.createElement("h4");
+    const headerElement = document.createElement("h4");
     
-    var nameElement = document.createElement("b");
+    const nameElement = document.createElement("b");
     nameElement.appendChild(document.createTextNode(commentData.name));
 
-    var sep = document.createTextNode(" ~ ");
+    const sep = document.createTextNode(" ~ ");
 
-    var tsElement = document.createElement("i");
+    const tsElement = document.createElement("i");
     tsElement.appendChild(document.createTextNode(commentData.timeStamp));
 
     headerElement.appendChild(nameElement);
@@ -58,11 +58,11 @@ function createCommentHeader(commentData) {
 
 /* Creates element for comment content */
 function createCommentContent(commentData) {
-    var contentElement = document.createElement("h5");
+    const contentElement = document.createElement("h5");
     contentElement.appendChild(document.createTextNode(commentData.comment));
 
     // Add blank line after comment
-    var brElement = document.createElement("br");
+    const brElement = document.createElement("br");
     contentElement.appendChild(brElement.cloneNode(true));
     contentElement.appendChild(brElement.cloneNode(true)); 
 
@@ -76,7 +76,7 @@ function createCommentContent(commentData) {
  */
 function changePhoto(dir) {
     // Image captions
-    var captions = ["This is Snugglebuns! A winter white dwarf hamster and my first pet.",
+    const captions = ["This is Snugglebuns! A winter white dwarf hamster and my first pet.",
                     "An up close view from a boat tour of the eruption of Kileaua on Big Island in 2018.",
                     "A picturesque view of Geirangerfjord on a road trip in Norway.",
                     "Taking in the sights at the Taj Mahal.",
@@ -84,11 +84,11 @@ function changePhoto(dir) {
                     "\"Sledding\" at White Sands National Park in New Mexico"]
 
     // Image widths
-    var widths = ["600", "600", "600", "350", "600", "600"]
+    const widths = ["600", "600", "600", "350", "600", "600"]
 
     // Get current image id
     const curr_img = document.getElementById("current_image").src;
-    var id = parseInt(curr_img.charAt(curr_img.length - 5));
+    const id = parseInt(curr_img.charAt(curr_img.length - 5));
 
     console.log("Current image " + curr_img);
     
@@ -116,7 +116,7 @@ function changePhoto(dir) {
 
     // Create new caption element
     const capElement = document.createElement("h4");
-    var capNode = document.createTextNode(captions[id]);
+    const capNode = document.createTextNode(captions[id]);
     capElement.appendChild(capNode);
 
     // Remove previous image and caption and add new image and caption. 
@@ -145,7 +145,7 @@ function w3_close() {
 function onClick(element) {
   document.getElementById("img01").src = element.src;
   document.getElementById("modal01").style.display = "block";
-  var captionText = document.getElementById("caption");
+  const captionText = document.getElementById("caption");
   captionText.innerHTML = element.alt;
 }
 

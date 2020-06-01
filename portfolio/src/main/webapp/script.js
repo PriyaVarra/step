@@ -22,12 +22,12 @@ function getComments() {
     fetch("/comments").then(response => response.json()).then((commentsData) => {
         const commentsContainer = document.getElementById("comments-container");
         commentsContainer.innerHTML = '';
-        for (const i = 0; i < commentsData.length; i++) {
+        for (var i = 0; i < commentsData.length; i++) {
             const commentData = commentsData[i];
 
             // Create new comment elements
-            const commentHeader = createCommentHeader(commentData);
-            const commentContent = createCommentContent(commentData);
+            const commentHeader = createCommentHeader(commentData.name, commentData.timeStamp);
+            const commentContent = createCommentContent(commentData.comment);
 
             // Add new comment to comments section
             commentsContainer.appendChild(commentHeader);
@@ -37,29 +37,39 @@ function getComments() {
 
 }
 
-/* Creates header for comment containing name in bold and timestamp in italics */
-function createCommentHeader(commentData) {
+/**
+ * Creates header for comment containing name and timestamp corresponding to comment 
+ * @param {string} name Name of person who left comment
+ * @param {string} timestamp String in format "mm/dd/yyyy hh:mm" denoting time comment was left
+ * @return {HTML Element} An h4 text header containing name in bold, a ~ for seperation, and timestamp in italics
+ */
+function createCommentHeader(name, timeStamp) {
     const headerElement = document.createElement("h4");
     
+    // Put commenter's name in bold
     const nameElement = document.createElement("b");
-    nameElement.appendChild(document.createTextNode(commentData.name));
+    nameElement.appendChild(document.createTextNode(name));
 
-    const sep = document.createTextNode(" ~ ");
-
+    // Put timestamp of comment int italics
     const tsElement = document.createElement("i");
-    tsElement.appendChild(document.createTextNode(commentData.timeStamp));
+    tsElement.appendChild(document.createTextNode(timeStamp));
 
+    // Separate name and timestamp with ~
     headerElement.appendChild(nameElement);
-    headerElement.appendChild(sep);
+    headerElement.appendChild(document.createTextNode(" ~ "));
     headerElement.appendChild(tsElement);
     
     return headerElement;
 }
 
-/* Creates element for comment content */
-function createCommentContent(commentData) {
+/**
+ * Creates HTML element for comment content  
+ * @param {string} content 
+ * @return {HTML Element} An h5 text header containing text from content followed by two line breaks 
+ */
+function createCommentContent(content) {
     const contentElement = document.createElement("h5");
-    contentElement.appendChild(document.createTextNode(commentData.comment));
+    contentElement.appendChild(document.createTextNode(content));
 
     // Add blank line after comment
     const brElement = document.createElement("br");
@@ -71,8 +81,7 @@ function createCommentContent(commentData) {
 
 /**
  * Changes image and updates caption in gallery section
- * dir = 1 goes to next image
- * dir = -1 goes to previous image
+ * @param {number} dir -1 displays previous image and 1 displays next image
  */
 function changePhoto(dir) {
     // Image captions

@@ -97,7 +97,7 @@ function changePhoto(dir) {
 
     // Get current image id
     const curr_img = document.getElementById("current_image").src;
-    const id = parseInt(curr_img.charAt(curr_img.length - 5));
+    var id = parseInt(curr_img.charAt(curr_img.length - 5));
 
     console.log("Current image " + curr_img);
     

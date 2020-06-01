@@ -16,10 +16,13 @@
 
 
 /**
- * Fetches comments from the server and adds it to the DOM
+ * Fetches up to maxComments comments from the server and adds it to the DOM
+ * @param {string} maxComments string representation of a positive integer
  */
-function getComments() {
-    fetch("/comments").then(response => response.json()).then((commentsData) => {
+function getComments(maxComments) {
+    const fetchURL = "/comments?max-comments=" + maxComments;
+
+    fetch(fetchURL).then(response => response.json()).then((commentsData) => {
         const commentsContainer = document.getElementById("comments-container");
         commentsContainer.innerHTML = '';
         for (var i = 0; i < commentsData.length; i++) {
@@ -34,7 +37,14 @@ function getComments() {
             commentsContainer.appendChild(commentContent);
         }
     });
+}
 
+/**
+ * Extracts number selected by user and reloads up to this number of comments to the DOM
+ */
+function refreshComments() {
+    const selectedNumberString = document.getElementById("comments-select").value;
+    getComments(selectedNumberString)
 }
 
 /**

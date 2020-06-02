@@ -13,8 +13,6 @@
 // limitations under the License.
 
 
-
-
 /**
  * Fetches up to maxComments comments from the server and adds it to the DOM
  * @param {string} maxComments string representation of a positive integer
@@ -40,6 +38,17 @@ function getComments(maxComments) {
 }
 
 /**
+* Converts timeStamp from UTC to local timezone
+* @param {string} timeStamp string in form mm/dd/yyyy hh:mm a
+* @return {string} string in form mm/dd/yyyy hh:mm a for local timezone
+*/
+function convertTimeStamp(timeStamp) {
+    const timeStampString = timeStamp + " UTC";
+    let localDate = new Date(Date.parse(timeStampString));
+    return localDate.toLocaleString().replace(":00", "");
+}
+
+/**
  * Extracts number selected by user and reloads up to this number of comments to the DOM
  */
 function refreshComments() {
@@ -59,7 +68,6 @@ function deleteComments() {
    });
 }
 
-
 /**
  * Creates header for comment containing name and timestamp corresponding to comment 
  * @param {string} name Name of person who left comment
@@ -67,6 +75,8 @@ function deleteComments() {
  * @return {HTML Element} An h4 text header containing name in bold, a ~ for seperation, and timestamp in italics
  */
 function createCommentHeader(name, timeStamp) {
+    timeStamp = convertTimeStamp(timeStamp);
+
     const headerElement = document.createElement("h4");
     
     // Put commenter's name in bold

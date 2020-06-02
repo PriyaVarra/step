@@ -8,3 +8,4 @@ files:
   ignore:
     - 'walkthroughs/*'
     - 'tests/*'
+    - 'portfolio/src/main/webapp/WEB-INF/*'

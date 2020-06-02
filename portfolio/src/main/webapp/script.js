@@ -12,33 +12,92 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
+
+
 /**
- * Fetches greeting from the server and adds it to the DOM
+ * Fetches comments from the server and adds it to the DOM
  */
-function getData() {
-    fetch("/data").then(response => response.text()).then((data) => {document.getElementById("data").innerHTML = data});
+function getComments() {
+    fetch("/comments").then(response => response.json()).then((commentsData) => {
+        const commentsContainer = document.getElementById("comments-container");
+        commentsContainer.innerHTML = '';
+        for (var i = 0; i < commentsData.length; i++) {
+            const commentData = commentsData[i];
+
+            // Create new comment elements
+            const commentHeader = createCommentHeader(commentData.name, commentData.timeStamp);
+            const commentContent = createCommentContent(commentData.comment);
+
+            // Add new comment to comments section
+            commentsContainer.appendChild(commentHeader);
+            commentsContainer.appendChild(commentContent);
+        }
+    });
+
+}
+
+/**
+ * Creates header for comment containing name and timestamp corresponding to comment 
+ * @param {string} name Name of person who left comment
+ * @param {string} timestamp String in format "mm/dd/yyyy hh:mm" denoting time comment was left
+ * @return {HTML Element} An h4 text header containing name in bold, a ~ for seperation, and timestamp in italics
+ */
+function createCommentHeader(name, timeStamp) {
+    const headerElement = document.createElement("h4");
+    
+    // Put commenter's name in bold
+    const nameElement = document.createElement("b");
+    nameElement.appendChild(document.createTextNode(name));
+
+    // Put timestamp of comment int italics
+    const tsElement = document.createElement("i");
+    tsElement.appendChild(document.createTextNode(timeStamp));
+
+    // Separate name and timestamp with ~
+    headerElement.appendChild(nameElement);
+    headerElement.appendChild(document.createTextNode(" ~ "));
+    headerElement.appendChild(tsElement);
+    
+    return headerElement;
+}
+
+/**
+ * Creates HTML element for comment content  
+ * @param {string} content 
+ * @return {HTML Element} An h5 text header containing text from content followed by two line breaks 
+ */
+function createCommentContent(content) {
+    const contentElement = document.createElement("h5");
+    contentElement.appendChild(document.createTextNode(content));
+
+    // Add blank line after comment
+    const brElement = document.createElement("br");
+    contentElement.appendChild(brElement.cloneNode(true));
+    contentElement.appendChild(brElement.cloneNode(true)); 
+
+    return contentElement;
 }
 
 /**
  * Changes image and updates caption in gallery section
- * dir = 1 goes to next image
- * dir = -1 goes to previous image
+ * @param {number} dir -1 displays previous image and 1 displays next image
  */
 function changePhoto(dir) {
     // Image captions
-    var captions = ["This is Snugglebuns! A winter white dwarf hamster and my first pet.",
+    const captions = ["This is Snugglebuns! A winter white dwarf hamster and my first pet.",
                     "An up close view from a boat tour of the eruption of Kileaua on Big Island in 2018.",
                     "A picturesque view of Geirangerfjord on a road trip in Norway.",
                     "Taking in the sights at the Taj Mahal.",
                     "My sister and I enjoying ourselves in Oslo",
-                    "\"Sledding\"  at White Sands National Park in New Mexico"]
+                    "\"Sledding\" at White Sands National Park in New Mexico"]
 
     // Image widths
-    var widths = ["600", "600", "600", "350", "600", "600"]
+    const widths = ["600", "600", "600", "350", "600", "600"]
 
     // Get current image id
     const curr_img = document.getElementById("current_image").src;
-    var id = parseInt(curr_img.charAt(curr_img.length - 5));
+    const id = parseInt(curr_img.charAt(curr_img.length - 5));
 
     console.log("Current image " + curr_img);
     
@@ -66,7 +125,7 @@ function changePhoto(dir) {
 
     // Create new caption element
     const capElement = document.createElement("h4");
-    var capNode = document.createTextNode(captions[id]);
+    const capNode = document.createTextNode(captions[id]);
     capElement.appendChild(capNode);
 
     // Remove previous image and caption and add new image and caption. 
@@ -95,7 +154,7 @@ function w3_close() {
 function onClick(element) {
   document.getElementById("img01").src = element.src;
   document.getElementById("modal01").style.display = "block";
-  var captionText = document.getElementById("caption");
+  const captionText = document.getElementById("caption");
   captionText.innerHTML = element.alt;
 }
 

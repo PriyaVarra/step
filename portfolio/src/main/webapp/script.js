@@ -52,7 +52,11 @@ function refreshComments() {
  */
 function deleteComments() {
    console.log("Deleting comments");
-   fetch("/delete-data", {method: "post", body: ""});
+
+   // Send POST to delete-data URL. Once deletion is done refresh the comments
+   fetch("/delete-data", {method: "post", body: ""}).then((response) => {
+       refreshComments();
+   });
 }
 
 

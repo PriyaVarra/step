@@ -48,6 +48,15 @@ function refreshComments() {
 }
 
 /**
+ * Deletes all comments in data store and removes all HTML elements from comments section of DOM
+ */
+function deleteComments() {
+   console.log("Deleting comments");
+   fetch("/delete-data", {method: "post", body: ""});
+}
+
+
+/**
  * Creates header for comment containing name and timestamp corresponding to comment 
  * @param {string} name Name of person who left comment
  * @param {string} timestamp String in format "mm/dd/yyyy hh:mm" denoting time comment was left

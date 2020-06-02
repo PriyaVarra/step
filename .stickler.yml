@@ -9,3 +9,4 @@ files:
     - 'walkthroughs/*'
     - 'tests/*'
     - 'portfolio/src/main/webapp/WEB-INF/*'
+    - 'portfolio/pom.xml'

@@ -1,0 +1,10 @@
+linters:
+  checkstyle:
+    config: ./checkstyle.xml
+  eslint:
+    config: './.eslintrc'
+
+files:
+  ignore:
+    - 'walkthroughs/*'
+    - 'target/*'

@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that returns some example comments. */
 @WebServlet("/comments")
-public class DataServlet extends HttpServlet {
+public class CommentsServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -67,15 +67,24 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
+    int maxComments = Integer.parseInt(request.getParameter("max-comments"));
+
     // Create commentData object for each stored comment and store in list
+    int numComments = 0;
     List<CommentData> commentsData = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
+      if (numComments == maxComments) {
+          break;
+      }
+
       String name = (String) entity.getProperty("name");
       String comment = (String) entity.getProperty("comment");
       String timeStamp = (String) entity.getProperty("timeStamp");
 
       CommentData commentData = new CommentData(name, comment, timeStamp);
       commentsData.add(commentData);
+
+      numComments++;
     }
     
     // Create json string from list of commentData objects 

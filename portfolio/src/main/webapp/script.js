@@ -16,10 +16,13 @@
 
 
 /**
- * Fetches comments from the server and adds it to the DOM
+ * Fetches up to maxComments comments from the server and adds it to the DOM
+ * @param {string} maxComments string representation of a positive integer
  */
-function getComments() {
-    fetch("/comments").then(response => response.json()).then((commentsData) => {
+function getComments(maxComments) {
+    const fetchURL = "/comments?max-comments=" + maxComments;
+
+    fetch(fetchURL).then(response => response.json()).then((commentsData) => {
         const commentsContainer = document.getElementById("comments-container");
         commentsContainer.innerHTML = '';
         for (var i = 0; i < commentsData.length; i++) {
@@ -34,8 +37,28 @@ function getComments() {
             commentsContainer.appendChild(commentContent);
         }
     });
-
 }
+
+/**
+ * Extracts number selected by user and reloads up to this number of comments to the DOM
+ */
+function refreshComments() {
+    const selectedNumberString = document.getElementById("comments-select").value;
+    getComments(selectedNumberString)
+}
+
+/**
+ * Deletes all comments in data store and removes all HTML elements from comments section of DOM
+ */
+function deleteComments() {
+   console.log("Deleting comments");
+
+   // Send POST to delete-data URL. Once deletion is done refresh the comments
+   fetch("/delete-data", {method: "post", body: ""}).then((response) => {
+       refreshComments();
+   });
+}
+
 
 /**
  * Creates header for comment containing name and timestamp corresponding to comment 
@@ -97,7 +120,7 @@ function changePhoto(dir) {
 
     // Get current image id
     const curr_img = document.getElementById("current_image").src;
-    const id = parseInt(curr_img.charAt(curr_img.length - 5));
+    var id = parseInt(curr_img.charAt(curr_img.length - 5));
 
     console.log("Current image " + curr_img);
     

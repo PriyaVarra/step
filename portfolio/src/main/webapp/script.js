@@ -23,9 +23,7 @@ function getComments(maxComments) {
     fetch(fetchURL).then(response => response.json()).then((commentsData) => {
         const commentsContainer = document.getElementById("comments-container");
         commentsContainer.innerHTML = '';
-        for (var i = 0; i < commentsData.length; i++) {
-            const commentData = commentsData[i];
-
+        for (commentData of commentsData) {
             // Create new comment elements
             const commentHeader = createCommentHeader(commentData.name, commentData.utcDate);
             const commentContent = createCommentContent(commentData.comment);
@@ -39,7 +37,7 @@ function getComments(maxComments) {
 
 /**
 * Converts date and time from UTC to local timezone
-* @param {string} utcDate
+* @param {Date} utcDate
 * @return {string} string in form M/dd/yyyy hh:mm a for local timezone
 */
 function convertUTCDate(utcDate) {
@@ -130,7 +128,7 @@ function changePhoto(dir) {
 
     // Get current image id
     const curr_img = document.getElementById("current_image").src;
-    var id = parseInt(curr_img.charAt(curr_img.length - 5));
+    let id = parseInt(curr_img.charAt(curr_img.length - 5));
 
     console.log("Current image " + curr_img);
     

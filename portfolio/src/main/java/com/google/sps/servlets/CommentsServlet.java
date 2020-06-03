@@ -24,8 +24,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.sps.data.CommentData;
 import java.io.IOException;
-import java.text.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Date;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,9 +42,6 @@ public class CommentsServlet extends HttpServlet {
       // Create timestamp with date and time from comment
       Date utcDate = new Date();
       
-      //SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy  hh:mm a");
-      //String timeStamp = sdf.format(date);
-
       // Get name and comment from form
       String name = request.getParameter("Name");
       String comment = request.getParameter("Comment");
@@ -52,7 +50,6 @@ public class CommentsServlet extends HttpServlet {
       Entity commentDataEntity = new Entity("CommentData");
       commentDataEntity.setProperty("name", name);  
       commentDataEntity.setProperty("comment", comment);
-      //commentDataEntity.setProperty("timeStamp", timeStamp);  
       commentDataEntity.setProperty("utcDate", utcDate);
 
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

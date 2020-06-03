@@ -27,7 +27,7 @@ function getComments(maxComments) {
             const commentData = commentsData[i];
 
             // Create new comment elements
-            const commentHeader = createCommentHeader(commentData.name, commentData.timeStamp);
+            const commentHeader = createCommentHeader(commentData.name, commentData.utcDate);
             const commentContent = createCommentContent(commentData.comment);
 
             // Add new comment to comments section
@@ -38,14 +38,16 @@ function getComments(maxComments) {
 }
 
 /**
-* Converts timeStamp from UTC to local timezone
-* @param {string} timeStamp string in form mm/dd/yyyy hh:mm a
-* @return {string} string in form mm/dd/yyyy hh:mm a for local timezone
+* Converts date and time from UTC to local timezone
+* @param {string} utcDate
+* @return {string} string in form M/dd/yyyy hh:mm a for local timezone
 */
-function convertTimeStamp(timeStamp) {
-    const timeStampString = timeStamp + " UTC";
-    let localDate = new Date(Date.parse(timeStampString));
-    return localDate.toLocaleString().replace(":00", "");
+function convertUTCDate(utcDate) {
+    let localDate = new Date(utcDate);
+    
+    // Format local date to M/dd/yyyy hh:mm a
+    const options = {year: "numeric", month: "numeric", day: "2-digit", hour: "2-digit", minute: "2-digit"}; 
+    return localDate.toLocaleDateString("en-us", options);
 }
 
 /**
@@ -60,8 +62,6 @@ function refreshComments() {
  * Deletes all comments in data store and removes all HTML elements from comments section of DOM
  */
 function deleteComments() {
-   console.log("Deleting comments");
-
    // Send POST to delete-data URL. Once deletion is done refresh the comments
    fetch("/delete-data", {method: "post", body: ""}).then((response) => {
        refreshComments();
@@ -71,11 +71,11 @@ function deleteComments() {
 /**
  * Creates header for comment containing name and timestamp corresponding to comment 
  * @param {string} name Name of person who left comment
- * @param {string} timestamp String in format "mm/dd/yyyy hh:mm" denoting time comment was left
+ * @param {string} utcDate String denoting time comment was left
  * @return {HTML Element} An h4 text header containing name in bold, a ~ for seperation, and timestamp in italics
  */
-function createCommentHeader(name, timeStamp) {
-    timeStamp = convertTimeStamp(timeStamp);
+function createCommentHeader(name, utcDate) {
+    const localDate = convertUTCDate(utcDate);
 
     const headerElement = document.createElement("h4");
     
@@ -85,7 +85,7 @@ function createCommentHeader(name, timeStamp) {
 
     // Put timestamp of comment int italics
     const tsElement = document.createElement("i");
-    tsElement.appendChild(document.createTextNode(timeStamp));
+    tsElement.appendChild(document.createTextNode(localDate));
 
     // Separate name and timestamp with ~
     headerElement.appendChild(nameElement);

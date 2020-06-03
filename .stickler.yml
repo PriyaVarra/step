@@ -1,0 +1,11 @@
+linters:
+  checkstyle:
+    config: ./checkstyle.xml
+  standardjs:
+
+files:
+  ignore:
+    - 'walkthroughs/*'
+    - 'tests/*'
+    - 'portfolio/src/main/webapp/WEB-INF/*'
+    - 'portfolio/pom.xml'

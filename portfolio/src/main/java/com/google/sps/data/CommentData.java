@@ -7,12 +7,12 @@ public final class CommentData {
 
   private final String name;
   private final String comment;
-  private final String timeStamp;
+  private final Date utcDate;
   
-  public CommentData(String name, String comment, String timeStamp) {
+  public CommentData(String name, String comment, Date utcDate) {
     this.name = name;
     this.comment = comment;
-    this.timeStamp = timeStamp;
+    this.utcDate = utcDate;
   }
 
   public String getName() {
@@ -23,8 +23,8 @@ public final class CommentData {
     return comment;
   }
 
-  public String getTimeStamp() {
-    return timeStamp;
+  public Date getUTCDate() {
+    return utcDate;
   }
 
 }

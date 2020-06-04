@@ -13,20 +13,19 @@
 // limitations under the License.
 
 
-
-
 /**
- * Fetches comments from the server and adds it to the DOM
+ * Fetches up to maxComments comments from the server and adds it to the DOM
+ * @param {string} maxComments string representation of a positive integer
  */
-function getComments() {
-    fetch("/comments").then(response => response.json()).then((commentsData) => {
+function getComments(maxComments) {
+    const fetchURL = "/comments?max-comments=" + maxComments;
+
+    fetch(fetchURL).then(response => response.json()).then((commentsData) => {
         const commentsContainer = document.getElementById("comments-container");
         commentsContainer.innerHTML = '';
-        for (var i = 0; i < commentsData.length; i++) {
-            const commentData = commentsData[i];
-
+        for (commentData of commentsData) {
             // Create new comment elements
-            const commentHeader = createCommentHeader(commentData.name, commentData.timeStamp);
+            const commentHeader = createCommentHeader(commentData.name, commentData.utcDate);
             const commentContent = createCommentContent(commentData.comment);
 
             // Add new comment to comments section
@@ -34,16 +33,48 @@ function getComments() {
             commentsContainer.appendChild(commentContent);
         }
     });
+}
 
+/**
+* Converts date and time from UTC to local timezone
+* @param {Date} utcDate
+* @return {string} string in form M/dd/yyyy hh:mm a for local timezone
+*/
+function convertUTCDate(utcDate) {
+    let localDate = new Date(utcDate);
+    
+    // Format local date to M/dd/yyyy hh:mm a
+    const options = {year: "numeric", month: "numeric", day: "2-digit", hour: "2-digit", minute: "2-digit"}; 
+    return localDate.toLocaleDateString("en-us", options);
+}
+
+/**
+ * Extracts number selected by user and reloads up to this number of comments to the DOM
+ */
+function refreshComments() {
+    const selectedNumberString = document.getElementById("comments-select").value;
+    getComments(selectedNumberString)
+}
+
+/**
+ * Deletes all comments in data store and removes all HTML elements from comments section of DOM
+ */
+function deleteComments() {
+   // Send POST to delete-data URL. Once deletion is done refresh the comments
+   fetch("/delete-data", {method: "post", body: ""}).then((response) => {
+       refreshComments();
+   });
 }
 
 /**
  * Creates header for comment containing name and timestamp corresponding to comment 
  * @param {string} name Name of person who left comment
- * @param {string} timestamp String in format "mm/dd/yyyy hh:mm" denoting time comment was left
+ * @param {string} utcDate String denoting time comment was left
  * @return {HTML Element} An h4 text header containing name in bold, a ~ for seperation, and timestamp in italics
  */
-function createCommentHeader(name, timeStamp) {
+function createCommentHeader(name, utcDate) {
+    const localDate = convertUTCDate(utcDate);
+
     const headerElement = document.createElement("h4");
     
     // Put commenter's name in bold
@@ -52,7 +83,7 @@ function createCommentHeader(name, timeStamp) {
 
     // Put timestamp of comment int italics
     const tsElement = document.createElement("i");
-    tsElement.appendChild(document.createTextNode(timeStamp));
+    tsElement.appendChild(document.createTextNode(localDate));
 
     // Separate name and timestamp with ~
     headerElement.appendChild(nameElement);
@@ -97,7 +128,7 @@ function changePhoto(dir) {
 
     // Get current image id
     const curr_img = document.getElementById("current_image").src;
-    const id = parseInt(curr_img.charAt(curr_img.length - 5));
+    let id = parseInt(curr_img.charAt(curr_img.length - 5));
 
     console.log("Current image " + curr_img);
     

@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-/** Servlet that returns some example comments. */
+/** Servlet that stores and displays comments. */
 @WebServlet("/comments")
 public class CommentsServlet extends HttpServlet {
 

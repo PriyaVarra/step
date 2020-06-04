@@ -34,10 +34,9 @@ public class AuthenticationServlet extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
 
     if (userService.isUserLoggedIn()) {
-        response.getWriter().println("<h4> User is logged in. </h4>");
-    }
-    else {
-        response.getWriter().println("<h4> User is logged out. </h4>");
+      response.getWriter().println("<h4> User is logged in. </h4>");
+    } else {
+      response.getWriter().println("<h4> User is logged out. </h4>");
     }
   }
 }

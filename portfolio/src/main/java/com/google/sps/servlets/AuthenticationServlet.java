@@ -23,21 +23,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-/** Servlet that authenticates logins/logouts with Users API */
+/** Servlet that authenticates logins/logouts with Users API. */
 @WebServlet("/authentication")
 public class AuthenticationServlet extends HttpServlet {
 
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html");
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    response.setContentType("text/html");
         
-        UserService userService = UserServiceFactory.getUserService();
+    UserService userService = UserServiceFactory.getUserService();
 
-        if (userService.isUserLoggedIn()) {
-            response.getWriter().println("<h4> User is logged in. </h4>");
-        }
-        else {
-            response.getWriter().println("<h4> User is logged out. </h4>");
-        }
+    if (userService.isUserLoggedIn()) {
+        response.getWriter().println("<h4> User is logged in. </h4>");
     }
+    else {
+        response.getWriter().println("<h4> User is logged out. </h4>");
+    }
+  }
 }

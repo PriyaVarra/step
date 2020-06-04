@@ -18,8 +18,6 @@ jobs:
       with:
         # GITHUB_TOKEN.
         github_token: ${{ github.token }}
-        # Report level for reviewdog [info,warning,error]
-        level: info
         # Reporter of reviewdog command [github-pr-check,github-pr-review]
         reporter: github-pr-check
         # Checkstyle config file

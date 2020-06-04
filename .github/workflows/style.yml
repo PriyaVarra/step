@@ -1,11 +1,7 @@
 
 name: style checkers
 
-on:
-  pull_request:
-    branches: [PriyaDevelopment]
-  push:
-    branches: [CommentsDev]
+on: pull_request
     
 jobs:
   checkstyle-job:
@@ -15,9 +11,5 @@ jobs:
     - name: Run java checkstyle
       uses: nikitasavinov/checkstyle-action@0.2.0
       with:
-        # GITHUB_TOKEN.
-        github_token: ${{ github.token }}
-        # Reporter of reviewdog command [github-pr-check,github-pr-review]
-        reporter: 'github-pr-check'
         # Working directory relative to the root directory.
         workdir: './portfolio/src/main/java/com/google/sps/'

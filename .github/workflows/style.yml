@@ -25,4 +25,4 @@ jobs:
         # Checkstyle config file
         checkstyle_config: google_checks.xml
         # Working directory relative to the root directory.
-        workdir: ./portfolio/src/main/java/sps/
+        workdir: ./portfolio/src/main/java/com/google/sps/

@@ -128,7 +128,7 @@ public class CommentsServlet extends HttpServlet {
   private String getUserDisplayName(String id) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query =
-      new Query("UserInfo")
+        new Query("UserInfo")
         .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
     PreparedQuery results = datastore.prepare(query);
     Entity entity = results.asSingleEntity();

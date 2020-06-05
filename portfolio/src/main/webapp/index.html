@@ -15,7 +15,7 @@
     .w3-half img:hover{opacity:1}
 </style>
 
-<body onload="onload()">
+<body onload="loadPage()">
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-teal w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
@@ -233,7 +233,7 @@
 
                 <h5><b>Choose the maximum number of comments to be displayed below.</b></h5>
 
-                <select name="option" id="comments-select" onchange="onload()">
+                <select name="option" id="comments-select" onchange="loadPage()">
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="20">20</option>
@@ -246,7 +246,7 @@
 
         <div hidden class="w3-container w3-padding w3-center" id=login-container>
             <h5> <b> Want to leave a comment? Login below! </b> </h5>
-            <button id=login class="w3-button w3-teal" onclick="userAction(this)">Login</button>
+            <button id=login class="w3-button w3-teal">Login</button>
         </div>
 
         <div hidden class="w3-container" style="margin-top:15px" id="comments-input"> 
@@ -270,7 +270,7 @@
             </div>
             
             <div class="w3-container w3-padding w3-center"> 
-                <button id=logout class="w3-button w3-teal" onclick="userAction(this)">Logout</button>
+                <button id=logout class="w3-button w3-teal">Logout</button>
             </div>  
         </div>  
     </div>

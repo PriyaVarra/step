@@ -64,17 +64,25 @@ public class AuthenticationServlet extends HttpServlet {
 
     UserService userService = UserServiceFactory.getUserService();
 
-    // If user is logged in and trying to login again, redirect to home page otherwise provide logout URL
-    String loggedInURL = action.equals("login") ? "/index.html" : userService.createLogoutURL("/index.html");
+    /**
+     * If user is logged in and trying to login again, 
+     * redirect to home page otherwise provide logout URL
+     */
+    String loggedInUrl = 
+        action.equals("login") ? "/index.html" : userService.createLogoutURL("/index.html");
 
-    // If user is logged out and trying to logout again, redirect to home page otherwise provide login URL
-    String loggedOutURL = action.equals("login") ? userService.createLoginURL("/index.html") : "/index.html";
+    /**
+     * If user is logged out and trying to logout again, 
+     * redirect to home page otherwise provide logout URL
+     */
+    String loggedOutUrl = 
+        action.equals("login") ? userService.createLoginURL("/index.html") : "/index.html";
     
     if (userService.isUserLoggedIn()) {
-      response.sendRedirect(loggedInURL);
+      response.sendRedirect(loggedInUrl);
       return;
     } else {
-      response.sendRedirect(loggedOutURL);
+      response.sendRedirect(loggedOutUrl);
       return;
     }
   }
@@ -86,7 +94,7 @@ public class AuthenticationServlet extends HttpServlet {
   private String getUserDisplayName(String id) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query =
-      new Query("UserInfo")
+        new Query("UserInfo")
         .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
     PreparedQuery results = datastore.prepare(query);
     Entity entity = results.asSingleEntity();

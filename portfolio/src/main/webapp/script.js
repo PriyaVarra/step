@@ -19,16 +19,16 @@
  * comments into DOM. 
  */
 function onload() {
-    fetch("/authentication").then(response => response.json()).then((authData) => {
-        if (authData.loggedIn) {
-            document.getElementById("comments-input").hidden = false;
-            document.getElementById("name").value = authData.displayName;
-            getComments(authData.id);
-        } else {
-            document.getElementById("login-container").hidden = false;
-            getComments("");
-        }
-    });
+  fetch("/authentication").then(response => response.json()).then((authData) => {
+    if (authData.loggedIn) {
+      document.getElementById("comments-input").hidden = false;
+      document.getElementById("name").value = authData.displayName;
+      getComments(authData.id);
+    } else {
+      document.getElementById("login-container").hidden = false;
+      getComments("");
+    }
+  });
 }
 
 /**
@@ -37,27 +37,27 @@ function onload() {
  * @param {string} id current user id or empty string if no user is logged in
  */
 function getComments(id) {
-    const fetchURL = "/comments?max-comments=" + document.getElementById("comments-select").value;
+  const fetchURL = "/comments?max-comments=" + document.getElementById("comments-select").value;
 
-    fetch(fetchURL).then(response => response.json()).then((commentsData) => {
-        const commentsContainer = document.getElementById("comments-container");
-        commentsContainer.innerHTML = '';
-        for (commentData of commentsData) {
-            // Create new comment elements
-            const commentHeader = createCommentHeader(commentData.displayName, commentData.utcDate);
-            const commentContent = createCommentContent(commentData.comment);
+  fetch(fetchURL).then(response => response.json()).then((commentsData) => {
+    const commentsContainer = document.getElementById("comments-container");
+    commentsContainer.innerHTML = '';
+    for (commentData of commentsData) {
+      // Create new comment elements
+      const commentHeader = createCommentHeader(commentData.displayName, commentData.utcDate);
+      const commentContent = createCommentContent(commentData.comment);
 
-            // Add new comment to comments section
-            commentsContainer.appendChild(commentHeader);
-            commentsContainer.appendChild(commentContent);
-            
-            // If current user also wrote comment, add delete button
-            if (commentData.id == id) {
-                const commentDeleteButton = createCommentDeleteButton(commentData.key);
-                commentsContainer.appendChild(commentDeleteButton);
-            }
-        }
-    });
+      // Add new comment to comments section
+      commentsContainer.appendChild(commentHeader);
+      commentsContainer.appendChild(commentContent);
+           
+      // If current user also wrote comment, add delete button
+      if (commentData.id == id) {
+        const commentDeleteButton = createCommentDeleteButton(commentData.key);
+        commentsContainer.appendChild(commentDeleteButton);
+      }
+    }
+  });
 }
 
 /**
@@ -80,24 +80,24 @@ function convertUTCDate(utcDate) {
  * @return {HTML Element} An h4 text header containing name in bold, a ~ for seperation, and timestamp in italics
  */
 function createCommentHeader(name, utcDate) {
-    const localDate = convertUTCDate(utcDate);
+  const localDate = convertUTCDate(utcDate);
 
-    const headerElement = document.createElement("h4");
+  const headerElement = document.createElement("h4");
     
-    // Put commenter's name in bold
-    const nameElement = document.createElement("b");
-    nameElement.appendChild(document.createTextNode(name));
+  // Put commenter's name in bold
+  const nameElement = document.createElement("b");
+  nameElement.appendChild(document.createTextNode(name));
 
-    // Put timestamp of comment int italics
-    const tsElement = document.createElement("i");
-    tsElement.appendChild(document.createTextNode(localDate));
+  // Put timestamp of comment int italics
+  const tsElement = document.createElement("i");
+  tsElement.appendChild(document.createTextNode(localDate));
 
-    // Separate name and timestamp with ~
-    headerElement.appendChild(nameElement);
-    headerElement.appendChild(document.createTextNode(" ~ "));
-    headerElement.appendChild(tsElement);
+  // Separate name and timestamp with ~
+  headerElement.appendChild(nameElement);
+  headerElement.appendChild(document.createTextNode(" ~ "));
+  headerElement.appendChild(tsElement);
     
-    return headerElement;
+  return headerElement;
 }
 
 /**
@@ -153,16 +153,16 @@ function createCommentDeleteButton(key) {
  * @param {HTML element} buttonElement HTML button with id of either login or logout
  */
 function userAction(buttonElement) {
-    const postBody = "action=" + buttonElement.id;
-    const options = { 
-       method: "POST",
-       headers: {"Content-Type": "application/x-www-form-urlencoded"},
-       body: postBody
-    };
+  const postBody = "action=" + buttonElement.id;
+  const options = { 
+    method: "POST",
+    headers: {"Content-Type": "application/x-www-form-urlencoded"},
+    body: postBody
+  };
 
-    fetch("/authentication", options).then(response => {
-        window.location.href = response.url;
-    });
+  fetch("/authentication", options).then(response => {
+    window.location.href = response.url;
+  });
 }
 
 /**
@@ -170,55 +170,56 @@ function userAction(buttonElement) {
  * @param {number} dir -1 displays previous image and 1 displays next image
  */
 function changePhoto(dir) {
-    // Image captions
-    const captions = ["This is Snugglebuns! A winter white dwarf hamster and my first pet.",
-                    "An up close view from a boat tour of the eruption of Kileaua on Big Island in 2018.",
-                    "A picturesque view of Geirangerfjord on a road trip in Norway.",
-                    "Taking in the sights at the Taj Mahal.",
-                    "My sister and I enjoying ourselves in Oslo",
-                    "\"Sledding\" at White Sands National Park in New Mexico"]
+  // Image captions
+  const captions = [
+    "This is Snugglebuns! A winter white dwarf hamster and my first pet.",
+    "An up close view from a boat tour of the eruption of Kileaua on Big Island in 2018.",
+    "A picturesque view of Geirangerfjord on a road trip in Norway.",
+    "Taking in the sights at the Taj Mahal.",
+    "My sister and I enjoying ourselves in Oslo",
+    "Sledding\" at White Sands National Park in New Mexico",
+  ];
 
-    // Image widths
-    const widths = ["600", "600", "600", "350", "600", "600"]
+  // Image widths
+  const widths = ["600", "600", "600", "350", "600", "600"]
 
-    // Get current image id
-    const curr_img = document.getElementById("current_image").src;
-    let id = parseInt(curr_img.charAt(curr_img.length - 5));
+  // Get current image id
+  const curr_img = document.getElementById("current_image").src;
+  let id = parseInt(curr_img.charAt(curr_img.length - 5));
 
-    console.log("Current image " + curr_img);
-    
-    // Compute id of new image
-    id = id + dir;
+  console.log("Current image " + curr_img);
 
-    if (id < 0) {
-        id = 5;
-    }
+  // Compute id of new image
+  id = id + dir;
 
-    if (id > 5) {
-        id = 0;
-    }
+  if (id < 0) {
+    id = 5;
+  }
 
-    
-    // Create new image element
-    const prev_img_src = "gallery/gallery" + id + ".jpg";
+  if (id > 5) {
+    id = 0;
+  }
 
-    const imgElement = document.createElement("img");
-    imgElement.src = prev_img_src;
-    imgElement.id = "current_image";
-    imgElement.width = widths[id];
-    imgElement.height = "450";
-    imgElement.style = "border: 15px solid #008080";
+  // Create new image element
+  const prev_img_src = "gallery/gallery" + id + ".jpg";
 
-    // Create new caption element
-    const capElement = document.createElement("h4");
-    const capNode = document.createTextNode(captions[id]);
-    capElement.appendChild(capNode);
+  const imgElement = document.createElement("img");
+  imgElement.src = prev_img_src;
+  imgElement.id = "current_image";
+  imgElement.width = widths[id];
+  imgElement.height = "450";
+  imgElement.style = "border: 15px solid #008080";
 
-    // Remove previous image and caption and add new image and caption. 
-    const imageContainer = document.getElementById("img-container");
-    imageContainer.innerHTML = '';
-    imageContainer.appendChild(imgElement);
-    imageContainer.appendChild(capElement)
+  // Create new caption element
+  const capElement = document.createElement("h4");
+  const capNode = document.createTextNode(captions[id]);
+  capElement.appendChild(capNode);
+
+  // Remove previous image and caption and add new image and caption. 
+  const imageContainer = document.getElementById("img-container");
+  imageContainer.innerHTML = '';
+  imageContainer.appendChild(imgElement);
+  imageContainer.appendChild(capElement);
 }
 
 /**
@@ -243,4 +244,3 @@ function onClick(element) {
   const captionText = document.getElementById("caption");
   captionText.innerHTML = element.alt;
 }
-

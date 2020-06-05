@@ -12,25 +12,50 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+/**
+ * Gets authentication status from server. If a user is logged in, displays
+ * comment form, populates name field in form with previously set displayName,
+ * and loads comments into DOM. Otherwise, displays login button and loads 
+ * comments into DOM. 
+ */
+function onload() {
+    fetch("/authentication").then(response => response.json()).then((authData) => {
+        if (authData.loggedIn) {
+            document.getElementById("comments-input").hidden = false;
+            document.getElementById("name").value = authData.displayName;
+            getComments(authData.id);
+        } else {
+            document.getElementById("login-container").hidden = false;
+            getComments("");
+        }
+    });
+}
 
 /**
- * Fetches up to maxComments comments from the server and adds it to the DOM
- * @param {string} maxComments string representation of a positive integer
+ * Fetches up to max number of comments specified by user from the server and adds it to the DOM.
+ * If a user is logged in, also adds delete button below every comment with the same user id.
+ * @param {string} id current user id or empty string if no user is logged in
  */
-function getComments(maxComments) {
-    const fetchURL = "/comments?max-comments=" + maxComments;
+function getComments(id) {
+    const fetchURL = "/comments?max-comments=" + document.getElementById("comments-select").value;
 
     fetch(fetchURL).then(response => response.json()).then((commentsData) => {
         const commentsContainer = document.getElementById("comments-container");
         commentsContainer.innerHTML = '';
         for (commentData of commentsData) {
             // Create new comment elements
-            const commentHeader = createCommentHeader(commentData.name, commentData.utcDate);
+            const commentHeader = createCommentHeader(commentData.displayName, commentData.utcDate);
             const commentContent = createCommentContent(commentData.comment);
 
             // Add new comment to comments section
             commentsContainer.appendChild(commentHeader);
             commentsContainer.appendChild(commentContent);
+            
+            // If current user also wrote comment, add delete button
+            if (commentData.id == id) {
+                const commentDeleteButton = createCommentDeleteButton(commentData.key);
+                commentsContainer.appendChild(commentDeleteButton);
+            }
         }
     });
 }
@@ -46,24 +71,6 @@ function convertUTCDate(utcDate) {
     // Format local date to M/dd/yyyy hh:mm a
     const options = {year: "numeric", month: "numeric", day: "2-digit", hour: "2-digit", minute: "2-digit"}; 
     return localDate.toLocaleDateString("en-us", options);
-}
-
-/**
- * Extracts number selected by user and reloads up to this number of comments to the DOM
- */
-function refreshComments() {
-    const selectedNumberString = document.getElementById("comments-select").value;
-    getComments(selectedNumberString)
-}
-
-/**
- * Deletes all comments in data store and removes all HTML elements from comments section of DOM
- */
-function deleteComments() {
-   // Send POST to delete-data URL. Once deletion is done refresh the comments
-   fetch("/delete-data", {method: "post", body: ""}).then((response) => {
-       refreshComments();
-   });
 }
 
 /**
@@ -96,7 +103,7 @@ function createCommentHeader(name, utcDate) {
 /**
  * Creates HTML element for comment content  
  * @param {string} content 
- * @return {HTML Element} An h5 text header containing text from content followed by two line breaks 
+ * @return {HTML Element} An h5 text header containing text from content followed by a line break 
  */
 function createCommentContent(content) {
     const contentElement = document.createElement("h5");
@@ -105,9 +112,57 @@ function createCommentContent(content) {
     // Add blank line after comment
     const brElement = document.createElement("br");
     contentElement.appendChild(brElement.cloneNode(true));
-    contentElement.appendChild(brElement.cloneNode(true)); 
 
     return contentElement;
+}
+
+/**
+ * Sends key of comment to server to delete comment
+ * @param {string} key string representation of comment's Datastore key
+ */
+function deleteComment(key) {
+   const postBody = "key=" + key;
+   const options = { 
+       method: "POST",
+       headers: {"Content-Type": "application/x-www-form-urlencoded"},
+       body: postBody
+    };
+
+    fetch("/delete-data", options).then(response => {
+        window.location.href = response.url;
+    });
+}
+
+/**
+ * Creates HTML button for deleting a single comment  
+ * @param {string} key 
+ * @return {HTML Element} A button that deletes comment corresponding to key when clicked 
+ */
+function createCommentDeleteButton(key) {
+    const buttonElement = document.createElement("button");
+    
+    buttonElement.setAttribute("class", "w3-button w3-teal");
+    buttonElement.addEventListener("click", function(){deleteComment(key)});
+    buttonElement.appendChild(document.createTextNode("Delete"));
+
+    return buttonElement;
+}
+
+/**
+ * Sends login/logout action to server from button clicked by user.
+ * @param {HTML element} buttonElement HTML button with id of either login or logout
+ */
+function userAction(buttonElement) {
+    const postBody = "action=" + buttonElement.id;
+    const options = { 
+       method: "POST",
+       headers: {"Content-Type": "application/x-www-form-urlencoded"},
+       body: postBody
+    };
+
+    fetch("/authentication", options).then(response => {
+        window.location.href = response.url;
+    });
 }
 
 /**

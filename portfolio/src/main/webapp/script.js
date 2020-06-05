@@ -177,7 +177,7 @@ function changePhoto(dir) {
     "A picturesque view of Geirangerfjord on a road trip in Norway.",
     "Taking in the sights at the Taj Mahal.",
     "My sister and I enjoying ourselves in Oslo",
-    "Sledding\" at White Sands National Park in New Mexico",
+    "\"Sledding\" at White Sands National Park in New Mexico",
   ];
 
   // Image widths

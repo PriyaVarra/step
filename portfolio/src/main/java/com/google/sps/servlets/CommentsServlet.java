@@ -44,40 +44,39 @@ public class CommentsServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-      UserService userService = UserServiceFactory.getUserService();
+    UserService userService = UserServiceFactory.getUserService();
       
-      // User can only comment if they are logged in
-      if (!userService.isUserLoggedIn()) {
-        response.sendRedirect("/index.html");
-        return;
-      }
-
-      // Create timestamp with date and time from comment
-      Date utcDate = new Date();
-      
-      String id = userService.getCurrentUser().getUserId();
-   
-      // Get displayName and comment from form
-      String displayName = request.getParameter("Name");
-      String comment = request.getParameter("Comment");
-    
-      // Place comment and corresponding information in DataStore
-      Entity commentDataEntity = new Entity("CommentData");
-      commentDataEntity.setProperty("id", id);      
-      commentDataEntity.setProperty("comment", comment);
-      commentDataEntity.setProperty("utcDate", utcDate);
-
-      // Update user's displayName in DataStore
-      Entity userInfoEntity = new Entity("UserInfo", id);
-      userInfoEntity.setProperty("id", id);
-      userInfoEntity.setProperty("displayName", displayName); 
-
-      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-      datastore.put(commentDataEntity);
-      datastore.put(userInfoEntity);
-
-      // Redirect back to HTML page
+    // User can only comment if they are logged in
+    if (!userService.isUserLoggedIn()) {
       response.sendRedirect("/index.html");
+      return;
+    }
+
+    // Create timestamp with date and time from comment
+    Date utcDate = new Date();
+
+    String id = userService.getCurrentUser().getUserId(); 
+    String comment = request.getParameter("Comment");
+    
+    // Place comment and corresponding information in DataStore
+    Entity commentDataEntity = new Entity("CommentData");
+    commentDataEntity.setProperty("id", id);      
+    commentDataEntity.setProperty("comment", comment);
+    commentDataEntity.setProperty("utcDate", utcDate);
+
+    String displayName = request.getParameter("Name");
+    
+    // Update user's displayName in DataStore
+    Entity userInfoEntity = new Entity("UserInfo", id);
+    userInfoEntity.setProperty("id", id);
+    userInfoEntity.setProperty("displayName", displayName); 
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentDataEntity);
+    datastore.put(userInfoEntity);
+
+    // Redirect back to HTML page
+    response.sendRedirect("/index.html");
   }
 
   @Override

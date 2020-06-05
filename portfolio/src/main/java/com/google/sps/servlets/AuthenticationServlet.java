@@ -36,7 +36,8 @@ public class AuthenticationServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    User user = UserServiceFactory.getUserService().getCurrentUser();
+    UserService userService = UserServiceFactory.getUserService();
+    User user = userService.getCurrentUser();
 
     String json = "{";
     json += "\"loggedIn\": ";
@@ -46,10 +47,11 @@ public class AuthenticationServlet extends HttpServlet {
       String id = user.getUserId();
       json += "true ,";
       json += "\"id\": \"" + id + "\" ,"; 
-      json += "\"displayName\": \"" + getUserDisplayName(id) + "\"";
-
+      json += "\"displayName\": \"" + getUserDisplayName(id) + "\" ,";
+      json += "\"url\": \"" + userService.createLogoutURL("/index.html") +  "\"";
     } else {
-      json += "false ";
+      json += "false ,";
+      json += "\"url\": \"" + userService.createLoginURL("/index.html") +  "\"";
     }
 
     json += "}";
@@ -58,31 +60,6 @@ public class AuthenticationServlet extends HttpServlet {
     response.getWriter().println(json);
   }
   
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String action = request.getParameter("action");
-
-    UserService userService = UserServiceFactory.getUserService();
-
-    // If user is logged in and trying to login again, 
-    // redirect to home page otherwise provide logout URL 
-    String loggedInUrl = 
-        action.equals("login") ? "/index.html" : userService.createLogoutURL("/index.html");
-
-    // If user is logged out and trying to logout again, 
-    // redirect to home page otherwise provide logout URL
-    String loggedOutUrl = 
-        action.equals("login") ? userService.createLoginURL("/index.html") : "/index.html";
-    
-    if (userService.isUserLoggedIn()) {
-      response.sendRedirect(loggedInUrl);
-      return;
-    } else {
-      response.sendRedirect(loggedOutUrl);
-      return;
-    }
-  }
-
   /**
    * Returns user's most recently set displayName in Datastore 
    * or returns empty string if user has not logged in before.

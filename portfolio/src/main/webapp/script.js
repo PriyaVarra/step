@@ -18,14 +18,18 @@
  * and loads comments into DOM. Otherwise, displays login button and loads 
  * comments into DOM. 
  */
-function onload() {
+function loadPage() {
   fetch("/authentication").then(response => response.json()).then((authData) => {
+    const onClickUrl = "window.location.href=\'" + authData.url + "\'";
+
     if (authData.loggedIn) {
       document.getElementById("comments-input").hidden = false;
       document.getElementById("name").value = authData.displayName;
+      document.getElementById("logout").setAttribute("onClick", onClickUrl);
       getComments(authData.id);
     } else {
       document.getElementById("login-container").hidden = false;
+      document.getElementById("login").setAttribute("onClick", onClickUrl);
       getComments("");
     }
   });
@@ -129,7 +133,7 @@ function deleteComment(key) {
     };
 
     fetch("/delete-data", options).then(response => {
-        window.location.href = response.url;
+      window.location.href = response.url;
     });
 }
 
@@ -146,23 +150,6 @@ function createCommentDeleteButton(key) {
     buttonElement.appendChild(document.createTextNode("Delete"));
 
     return buttonElement;
-}
-
-/**
- * Sends login/logout action to server from button clicked by user.
- * @param {HTML element} buttonElement HTML button with id of either login or logout
- */
-function userAction(buttonElement) {
-  const postBody = "action=" + buttonElement.id;
-  const options = { 
-    method: "POST",
-    headers: {"Content-Type": "application/x-www-form-urlencoded"},
-    body: postBody
-  };
-
-  fetch("/authentication", options).then(response => {
-    window.location.href = response.url;
-  });
 }
 
 /**

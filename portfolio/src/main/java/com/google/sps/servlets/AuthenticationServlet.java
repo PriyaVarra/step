@@ -64,17 +64,13 @@ public class AuthenticationServlet extends HttpServlet {
 
     UserService userService = UserServiceFactory.getUserService();
 
-    /**
-     * If user is logged in and trying to login again, 
-     * redirect to home page otherwise provide logout URL
-     */
+    // If user is logged in and trying to login again, 
+    // redirect to home page otherwise provide logout URL 
     String loggedInUrl = 
         action.equals("login") ? "/index.html" : userService.createLogoutURL("/index.html");
 
-    /**
-     * If user is logged out and trying to logout again, 
-     * redirect to home page otherwise provide logout URL
-     */
+    // If user is logged out and trying to logout again, 
+    // redirect to home page otherwise provide logout URL
     String loggedOutUrl = 
         action.equals("login") ? userService.createLoginURL("/index.html") : "/index.html";
     

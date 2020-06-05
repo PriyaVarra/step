@@ -16,38 +16,26 @@ package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.gson.Gson;
-import com.google.sps.data.CommentData;
+import com.google.appengine.api.datastore.KeyFactory;
 import java.io.IOException;
-import java.text.*;
-import java.util.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-/** Servlet that returns some example comments. */
+/** Servlet that deletes a comment given its Datastore key. */
 @WebServlet("/delete-data")
 public class DeleteDataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Load all comments from datastore and delete them
-    Query query = new Query("CommentData");
-
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    PreparedQuery results = datastore.prepare(query);
 
-    for (Entity entity: results.asIterable()) {
-        datastore.delete(entity.getKey());
-    }
+    String keyString = request.getParameter("key");
+    datastore.delete(KeyFactory.stringToKey(keyString));
     
-    // Redirect back to HTML page
+    // Redirect back to home page
     response.sendRedirect("/index.html");
   }
 }

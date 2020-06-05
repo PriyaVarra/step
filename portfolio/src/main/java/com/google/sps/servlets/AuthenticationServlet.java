@@ -14,6 +14,13 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import java.io.IOException;
@@ -23,20 +30,78 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-/** Servlet that authenticates logins/logouts with Users API. */
+/** Servlet that updates login/logout status with Users API. */
 @WebServlet("/authentication")
 public class AuthenticationServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html");
-        
+    User user = UserServiceFactory.getUserService().getCurrentUser();
+
+    String json = "{";
+    json += "\"loggedIn\": ";
+
+    // If user is logged in, write user information to json string
+    if (user != null) {
+      String id = user.getUserId();
+      json += "true ,";
+      json += "\"id\": \"" + id + "\" ,"; 
+      json += "\"displayName\": \"" + getUserDisplayName(id) + "\"";
+
+    } else {
+      json += "false ";
+    }
+
+    json += "}";
+
+    response.setContentType("application/json");    
+    response.getWriter().println(json);
+  }
+  
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String action = request.getParameter("action");
+
     UserService userService = UserServiceFactory.getUserService();
 
+    // If user is logged in and trying to login again, 
+    // redirect to home page otherwise provide logout URL 
+    String loggedInUrl = 
+        action.equals("login") ? "/index.html" : userService.createLogoutURL("/index.html");
+
+    // If user is logged out and trying to logout again, 
+    // redirect to home page otherwise provide logout URL
+    String loggedOutUrl = 
+        action.equals("login") ? userService.createLoginURL("/index.html") : "/index.html";
+    
     if (userService.isUserLoggedIn()) {
-      response.getWriter().println("<h4> User is logged in. </h4>");
+      response.sendRedirect(loggedInUrl);
+      return;
     } else {
-      response.getWriter().println("<h4> User is logged out. </h4>");
+      response.sendRedirect(loggedOutUrl);
+      return;
     }
   }
+
+  /**
+   * Returns user's most recently set displayName in Datastore 
+   * or returns empty string if user has not logged in before.
+   */
+  private String getUserDisplayName(String id) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query =
+        new Query("UserInfo")
+        .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
+    PreparedQuery results = datastore.prepare(query);
+    Entity entity = results.asSingleEntity();
+    
+    // User has not logged in before
+    if (entity == null) {
+      return "";
+    }
+
+    String displayName = (String) entity.getProperty("displayName");
+    return displayName;
+  }
+
 }

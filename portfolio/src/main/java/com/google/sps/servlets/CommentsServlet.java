@@ -17,9 +17,14 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.sps.data.CommentData;
@@ -39,24 +44,39 @@ public class CommentsServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-      // Create timestamp with date and time from comment
-      Date utcDate = new Date();
+    UserService userService = UserServiceFactory.getUserService();
       
-      // Get name and comment from form
-      String name = request.getParameter("Name");
-      String comment = request.getParameter("Comment");
-    
-      // Place comment and corresponding information in DataStore
-      Entity commentDataEntity = new Entity("CommentData");
-      commentDataEntity.setProperty("name", name);  
-      commentDataEntity.setProperty("comment", comment);
-      commentDataEntity.setProperty("utcDate", utcDate);
-
-      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-      datastore.put(commentDataEntity);
-
-      // Redirect back to HTML page
+    // User can only comment if they are logged in
+    if (!userService.isUserLoggedIn()) {
       response.sendRedirect("/index.html");
+      return;
+    }
+
+    // Create timestamp with date and time from comment
+    Date utcDate = new Date();
+
+    String id = userService.getCurrentUser().getUserId(); 
+    String comment = request.getParameter("Comment");
+    
+    // Place comment and corresponding information in DataStore
+    Entity commentDataEntity = new Entity("CommentData");
+    commentDataEntity.setProperty("id", id);      
+    commentDataEntity.setProperty("comment", comment);
+    commentDataEntity.setProperty("utcDate", utcDate);
+
+    String displayName = request.getParameter("Name");
+    
+    // Update user's displayName in DataStore
+    Entity userInfoEntity = new Entity("UserInfo", id);
+    userInfoEntity.setProperty("id", id);
+    userInfoEntity.setProperty("displayName", displayName); 
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentDataEntity);
+    datastore.put(userInfoEntity);
+
+    // Redirect back to HTML page
+    response.sendRedirect("/index.html");
   }
 
   @Override
@@ -69,24 +89,29 @@ public class CommentsServlet extends HttpServlet {
 
     int maxComments = Integer.parseInt(request.getParameter("max-comments"));
 
-    // Create commentData object for each stored comment and store in list
+    // Create commentData object for each stored comment, up to maxComments, and store in list
     int numComments = 0;
     List<CommentData> commentsData = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       if (numComments == maxComments) {
-          break;
+        break;
       }
 
-      String name = (String) entity.getProperty("name");
+      String id = (String) entity.getProperty("id");
       String comment = (String) entity.getProperty("comment");
       Date utcDate = (Date) entity.getProperty("utcDate");
 
-      CommentData commentData = new CommentData(name, comment, utcDate);
+      // Create string representation of key for json storage
+      String key = KeyFactory.keyToString(entity.getKey());
+
+      String displayName = getUserDisplayName(id);
+
+      CommentData commentData = new CommentData(key, id, displayName, comment, utcDate);
       commentsData.add(commentData);
 
       numComments++;
     }
-    
+
     // Create json string from list of commentData objects 
     Gson gson = new GsonBuilder().setDateFormat("M/dd/yyyy hh:mm a z").create();
     String json = gson.toJson(commentsData);
@@ -94,5 +119,26 @@ public class CommentsServlet extends HttpServlet {
     // Write json string to response 
     response.setContentType("application/json");
     response.getWriter().println(json);
+  }
+
+  /**
+  * Returns user's most recently set displayName in Datastore 
+  * or returns empty string if user has not logged in before.
+  */
+  private String getUserDisplayName(String id) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query =
+        new Query("UserInfo")
+        .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
+    PreparedQuery results = datastore.prepare(query);
+    Entity entity = results.asSingleEntity();
+    
+    // User has not logged in before
+    if (entity == null) {
+      return "";
+    }
+
+    String displayName = (String) entity.getProperty("displayName");
+    return displayName;
   }
 }

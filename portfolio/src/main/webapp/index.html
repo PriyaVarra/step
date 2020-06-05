@@ -15,7 +15,7 @@
     .w3-half img:hover{opacity:1}
 </style>
 
-<body onload="getComments(5)">
+<body onload="onload()">
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-teal w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
@@ -233,7 +233,7 @@
 
                 <h5><b>Choose the maximum number of comments to be displayed below.</b></h5>
 
-                <select name="option" id="comments-select" onchange="refreshComments()">
+                <select name="option" id="comments-select" onchange="onload()">
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="20">20</option>
@@ -244,29 +244,35 @@
 
         <div class="w3-container" id="comments-container"> </div>
 
-        <div class="w3-container w3-padding w3-center"> 
-            <button class="w3-button w3-teal" onclick="deleteComments()">Delete All Comments</button>
+        <div hidden class="w3-container w3-padding w3-center" id=login-container>
+            <h5> <b> Want to leave a comment? Login below! </b> </h5>
+            <button id=login class="w3-button w3-teal" onclick="userAction(this)">Login</button>
         </div>
 
-        <div class="w3-container w3-border w3-border-teal" style="margin-top:15px" id="comments-input"> 
-        <h4 class="w3-center"> <b> Fill out the form to leave a comment! <b> </h4>
-            <form action="/comments" method="POST">
-                <div class="w3-section">
-                    <label>Name</label>
-                    <input class="w3-input w3-border" type="text" name="Name" required>
-                </div>
+        <div hidden class="w3-container" style="margin-top:15px" id="comments-input"> 
+            <div class="w3-container w3-border w3-border-teal"> 
+                    <h4 class="w3-center"> <b> Fill out the form to leave a comment! </b> </h4>
+                    <form action="/comments" method="POST">
+                        <label> <b> Name: </b> </label>
+                        <div class="w3-section">
+                            <input id="name" class="w3-input w3-border" type="text" name="Name" required>
+                        </div>
 
-                <div class="w3-section">
-                    <label>Comment</label>
-                    <input class="w3-input w3-border" type="text" name="Comment" required>
-                </div>
+                        <label> <b> Comment: </b> </label>
+                        <div class="w3-section">
+                            <input class="w3-input w3-border" type="text" name="Comment" required>
+                        </div>
 
-                <div class="w3-center">
-                <button type="submit" class="w3-button w3-block w3-padding-large w3-teal w3-margin-bottom">Comment</button>
-                </div>
-                
-            </form> 
-        </div>    
+                        <div class="w3-center">
+                        <button type="submit" class="w3-button w3-block w3-padding-large w3-teal w3-margin-bottom">Comment</button>
+                        </div>
+                    </form>
+            </div>
+            
+            <div class="w3-container w3-padding w3-center"> 
+                <button id=logout class="w3-button w3-teal" onclick="userAction(this)">Logout</button>
+            </div>  
+        </div>  
     </div>
   
 <!-- End page content -->

@@ -1,7 +1,6 @@
 linters:
   checkstyle:
     config: ./checkstyle.xml
-  standardjs:
 
 files:
   ignore:

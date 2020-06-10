@@ -61,7 +61,7 @@ public class CommentsServlet extends HttpServlet {
     // Place comment and corresponding information in DataStore
     Entity commentDataEntity = new Entity("CommentData");
     commentDataEntity.setProperty("id", id);      
-    commentDataEntity.setProperty("comment", comment);
+    commentDataEntity.setProperty("content", comment);
     commentDataEntity.setProperty("utcDate", utcDate);
 
     String displayName = request.getParameter("Name");
@@ -75,8 +75,6 @@ public class CommentsServlet extends HttpServlet {
     datastore.put(commentDataEntity);
     datastore.put(userInfoEntity);
 
-    // Redirect back to HTML page
-    response.sendRedirect("/index.html");
   }
 
   @Override
@@ -98,13 +96,13 @@ public class CommentsServlet extends HttpServlet {
       }
 
       String id = (String) entity.getProperty("id");
-      String comment = (String) entity.getProperty("comment");
+      String comment = (String) entity.getProperty("content");
       Date utcDate = (Date) entity.getProperty("utcDate");
 
       // Create string representation of key for json storage
       String key = KeyFactory.keyToString(entity.getKey());
 
-      String displayName = getUserDisplayName(id);
+      String displayName = DataUtil.getUserDisplayName(id);
 
       CommentData commentData = new CommentData(key, id, displayName, comment, utcDate);
       commentsData.add(commentData);
@@ -119,26 +117,5 @@ public class CommentsServlet extends HttpServlet {
     // Write json string to response 
     response.setContentType("application/json");
     response.getWriter().println(json);
-  }
-
-  /**
-  * Returns user's most recently set displayName in Datastore 
-  * or returns empty string if user has not logged in before.
-  */
-  private String getUserDisplayName(String id) {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query =
-        new Query("UserInfo")
-        .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
-    PreparedQuery results = datastore.prepare(query);
-    Entity entity = results.asSingleEntity();
-    
-    // User has not logged in before
-    if (entity == null) {
-      return "";
-    }
-
-    String displayName = (String) entity.getProperty("displayName");
-    return displayName;
   }
 }

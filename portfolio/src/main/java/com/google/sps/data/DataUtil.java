@@ -6,7 +6,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
-/** Class containing util functions */
+/** Class containing util functions. */
 public final class DataUtil {
   /**
   * Returns user's most recently set displayName in Datastore 

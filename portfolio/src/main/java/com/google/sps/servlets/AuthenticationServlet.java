@@ -39,7 +39,7 @@ public class AuthenticationServlet extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
 
     String json = 
-      userService.isUserLoggedIn() ? createLogoutJson(userService) : createLoginJson(userService);
+        userService.isUserLoggedIn() ? createLogoutJson(userService) : createLoginJson(userService);
 
     response.setContentType("application/json");    
     response.getWriter().println(json);
@@ -50,21 +50,21 @@ public class AuthenticationServlet extends HttpServlet {
     String displayName = DataUtil.getUserDisplayName(id);
     
     // Url that allows user to logout and redirects them back to homepage
-    String logoutURL = userService.createLogoutURL("/index.html");
+    String logoutUrl = userService.createLogoutURL("/index.html");
 
     String json =
-      "{\"loggedIn\": true, \"id\": \"%s\", \"displayName\": \"%s\", \"url\": \"%s\"}";
+        "{\"loggedIn\": true, \"id\": \"%s\", \"displayName\": \"%s\", \"url\": \"%s\"}";
     
-    return String.format(json, id, displayName, logoutURL);
+    return String.format(json, id, displayName, logoutUrl);
   }
   
   private String createLoginJson(UserService userService) {
     // Url that allows user to login and redirects them back to homepage
-    String loginURL = userService.createLoginURL("/index.html");
+    String loginUrl = userService.createLoginURL("/index.html");
 
     String json = "{\"loggedIn\": false,  \"url\": \"%s\"}";
     
-    return String.format(json, loginURL);
+    return String.format(json, loginUrl);
   }
 
 }

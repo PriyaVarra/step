@@ -20,7 +20,7 @@ public final class DataUtil {
     PreparedQuery results = datastore.prepare(query);
     Entity entity = results.asSingleEntity();
     
-    // User has not logged in before
+    // User has never left a comment before.
     if (entity == null) {
       return "";
     }

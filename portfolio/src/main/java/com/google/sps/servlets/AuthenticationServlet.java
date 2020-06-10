@@ -37,48 +37,34 @@ public class AuthenticationServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
-    User user = userService.getCurrentUser();
 
-    String json = "{";
-    json += "\"loggedIn\": ";
-
-    // If user is logged in, write user information to json string
-    if (user != null) {
-      String id = user.getUserId();
-      json += "true ,";
-      json += "\"id\": \"" + id + "\" ,"; 
-      json += "\"displayName\": \"" + getUserDisplayName(id) + "\" ,";
-      json += "\"url\": \"" + userService.createLogoutURL("/index.html") +  "\"";
-    } else {
-      json += "false ,";
-      json += "\"url\": \"" + userService.createLoginURL("/index.html") +  "\"";
-    }
-
-    json += "}";
+    String json = 
+        userService.isUserLoggedIn() ? createLogoutJson(userService) : createLoginJson(userService);
 
     response.setContentType("application/json");    
     response.getWriter().println(json);
   }
-  
-  /**
-   * Returns user's most recently set displayName in Datastore 
-   * or returns empty string if user has not logged in before.
-   */
-  private String getUserDisplayName(String id) {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query =
-        new Query("UserInfo")
-        .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
-    PreparedQuery results = datastore.prepare(query);
-    Entity entity = results.asSingleEntity();
-    
-    // User has not logged in before
-    if (entity == null) {
-      return "";
-    }
 
-    String displayName = (String) entity.getProperty("displayName");
-    return displayName;
+  private String createLogoutJson(UserService userService) {
+    String id = userService.getCurrentUser().getUserId();
+    String displayName = DataUtil.getUserDisplayName(id);
+    
+    // Url that allows user to logout and redirects them back to homepage
+    String logoutUrl = userService.createLogoutURL("/index.html");
+
+    String json =
+        "{\"loggedIn\": true, \"id\": \"%s\", \"displayName\": \"%s\", \"url\": \"%s\"}";
+    
+    return String.format(json, id, displayName, logoutUrl);
+  }
+  
+  private String createLoginJson(UserService userService) {
+    // Url that allows user to login and redirects them back to homepage
+    String loginUrl = userService.createLoginURL("/index.html");
+
+    String json = "{\"loggedIn\": false,  \"url\": \"%s\"}";
+    
+    return String.format(json, loginUrl);
   }
 
 }

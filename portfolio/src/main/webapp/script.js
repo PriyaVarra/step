@@ -70,11 +70,11 @@ function getComments(id) {
 * @return {string} string in form M/dd/yyyy hh:mm a for local timezone
 */
 function convertUTCDate(utcDate) {
-    let localDate = new Date(utcDate);
+  let localDate = new Date(utcDate);
     
-    // Format local date to M/dd/yyyy hh:mm a
-    const options = {year: "numeric", month: "numeric", day: "2-digit", hour: "2-digit", minute: "2-digit"}; 
-    return localDate.toLocaleDateString("en-us", options);
+  // Format local date to M/dd/yyyy hh:mm a
+  const options = {year: "numeric", month: "numeric", day: "2-digit", hour: "2-digit", minute: "2-digit"}; 
+  return localDate.toLocaleDateString("en-us", options);
 }
 
 /**
@@ -110,14 +110,14 @@ function createCommentHeader(name, utcDate) {
  * @return {HTML Element} An h5 text header containing text from content followed by a line break 
  */
 function createCommentContent(content) {
-    const contentElement = document.createElement("h5");
-    contentElement.appendChild(document.createTextNode(content));
+  const contentElement = document.createElement("h5");
+  contentElement.appendChild(document.createTextNode(content));
 
-    // Add blank line after comment
-    const brElement = document.createElement("br");
-    contentElement.appendChild(brElement.cloneNode(true));
+  // Add blank line after comment
+  const brElement = document.createElement("br");
+  contentElement.appendChild(brElement.cloneNode(true));
 
-    return contentElement;
+  return contentElement;
 }
 
 /**
@@ -174,18 +174,8 @@ function changePhoto(dir) {
   const curr_img = document.getElementById("current_image").src;
   let id = parseInt(curr_img.charAt(curr_img.length - 5));
 
-  console.log("Current image " + curr_img);
-
-  // Compute id of new image
-  id = id + dir;
-
-  if (id < 0) {
-    id = 5;
-  }
-
-  if (id > 5) {
-    id = 0;
-  }
+  // Compute id of new image. Expression keeps indices in range [0,5]
+  id = ((id + dir) + 6) % 6;
 
   // Create new image element
   const prev_img_src = "gallery/gallery" + id + ".jpg";

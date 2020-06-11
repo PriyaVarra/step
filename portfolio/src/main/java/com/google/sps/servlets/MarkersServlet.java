@@ -23,9 +23,9 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gson.Gson;
 import com.google.sps.data.DataUtil;
 import com.google.sps.data.MarkerData;
-import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -64,17 +64,17 @@ public class MarkersServlet extends HttpServlet {
     }
 
     String id = userService.getCurrentUser().getUserId();
-
     String displayName = request.getParameter("name");
-    double lat = Double.parseDouble(request.getParameter("lat"));
-    double lng = Double.parseDouble(request.getParameter("lng"));   
-    String content = Jsoup.clean(request.getParameter("content"), Whitelist.none());
-
+    
     // Update user's displayName in DataStore
     Entity userInfoEntity = new Entity("UserInfo", id);
     userInfoEntity.setProperty("id", id);
     userInfoEntity.setProperty("displayName", displayName); 
     
+    double lat = Double.parseDouble(request.getParameter("lat"));
+    double lng = Double.parseDouble(request.getParameter("lng"));   
+    String content = Jsoup.clean(request.getParameter("content"), Whitelist.none());
+
     // Place information about marker in Datastore
     Entity markerEntity = new Entity("MarkerDataEntity");
     markerEntity.setProperty("lat", lat);

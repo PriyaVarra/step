@@ -39,7 +39,7 @@ public class EditDataServlet extends HttpServlet {
       Entity entity = datastore.get(key);
       entity.setProperty("content", request.getParameter("content"));
       datastore.put(entity);
-    } catch(EntityNotFoundException e) {
+    } catch (EntityNotFoundException e) {
       throw new RuntimeException("Entity not found");
     }
   }

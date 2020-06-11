@@ -14,7 +14,7 @@
 
 package com.google.sps.data;
 
-/** Represents a marker on the map. */
+/** Class containing marker on map data. */
 public class MarkerData {
 
   private String key;
@@ -24,7 +24,9 @@ public class MarkerData {
   private final double lng;
   private final String content;
 
-  public MarkerData(String key, String id, String displayName, double lat, double lng, String content) {
+  /** Populates data associated with comment left by authenticated user. */
+  public MarkerData(String key, String id, String displayName, 
+      double lat, double lng, String content) {
     this.key = key;
     this.id = id;
     this.displayName = displayName;
@@ -33,26 +35,32 @@ public class MarkerData {
     this.content = content;
   }
 
+  /** Returns string representation of marker's key in Datastore. */
   public String getKey() {
     return key;
   }
 
+  /** Returns string representation of id of user that added marker. */ 
   public String getId() {
     return id;
   }
 
+  /** Returns name set by user that added marker. */ 
   public String getDisplayName() {
     return displayName;
   }
 
+  /** Returns latitude of marker on map. */ 
   public double getLat() {
     return lat;
   }
-
+  
+  /** Returns longitude of marker on map. */ 
   public double getLng() {
     return lng;
   }
 
+  /** Returns description of location by user that added marker. */
   public String getContent() {
     return content;
   }

@@ -96,20 +96,24 @@ public class MarkersServlet extends HttpServlet {
     PreparedQuery results = datastore.prepare(query);
 
     for (Entity entity : results.asIterable()) {
-      double lat = (double) entity.getProperty("lat");
-      double lng = (double) entity.getProperty("lng");
-      String content = (String) entity.getProperty("content");
-      String id = (String) entity.getProperty("id");
-
-      String displayName = DataUtil.getUserDisplayName(id);
-
-      String key = KeyFactory.keyToString(entity.getKey());
-
-      MarkerData markerData = new MarkerData(key, id, displayName, lat, lng, content);
-      markersData.add(markerData);
+      markersData.add(createMarkerData(entity));
     }
 
     return markersData;
+  }
+
+  /** Creates MarkerData from Datastore Entity. */
+  private MarkerData createMarkerData(Entity entity) {
+    double lat = (double) entity.getProperty("lat");
+    double lng = (double) entity.getProperty("lng");
+    String content = (String) entity.getProperty("content");
+    String id = (String) entity.getProperty("id");
+
+    String displayName = DataUtil.getUserDisplayName(id);
+
+    String key = KeyFactory.keyToString(entity.getKey());
+
+    return new MarkerData(key, id, displayName, lat, lng, content);
   }
 
 }

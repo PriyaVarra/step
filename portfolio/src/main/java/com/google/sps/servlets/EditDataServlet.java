@@ -16,6 +16,8 @@ package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import java.io.IOException;
@@ -24,15 +26,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that deletes an entity given its Datastore key. */
-@WebServlet("/delete-data")
-public class DeleteDataServlet extends HttpServlet {
+/** Servlet that updates an entity given its Datastore key. */
+@WebServlet("/edit-data")
+public class EditDataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-    String keyString = request.getParameter("key");
-    datastore.delete(KeyFactory.stringToKey(keyString));
+    Key key = KeyFactory.stringToKey(request.getParameter("key"));
+    try {
+      Entity entity = datastore.get(key);
+      entity.setProperty("content", request.getParameter("content"));
+      datastore.put(entity);
+    } catch(EntityNotFoundException e) {
+      throw new RuntimeException("Entity not found");
+    }
   }
 }

@@ -21,102 +21,95 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.sps.data.CommentData;
 import com.google.sps.data.DataUtil;
+import com.google.sps.data.MarkerData;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Date;
+import java.util.Collection;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
+/** Handles fetching and saving markers data. */
+@WebServlet("/markers")
+public class MarkersServlet extends HttpServlet {
 
-/** Servlet that stores and displays comments. */
-@WebServlet("/comments")
-public class CommentsServlet extends HttpServlet {
+  /** Responds with a JSON array containing marker data. */
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    response.setContentType("application/json");
 
+    Collection<MarkerData> markersData = getMarkersData();
+    Gson gson = new Gson();
+    String json = gson.toJson(markersData);
+
+    response.getWriter().println(json);
+  }
+
+  /** Accepts a POST request containing a new marker. */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
-      
+
     // User can only comment if they are logged in
     if (!userService.isUserLoggedIn()) {
       response.sendRedirect("/index.html");
       return;
     }
 
-    // Create timestamp with date and time from comment
-    Date utcDate = new Date();
+    String id = userService.getCurrentUser().getUserId();
 
-    String id = userService.getCurrentUser().getUserId(); 
-    String comment = request.getParameter("Comment");
-    
-    // Place comment and corresponding information in DataStore
-    Entity commentDataEntity = new Entity("CommentData");
-    commentDataEntity.setProperty("id", id);      
-    commentDataEntity.setProperty("content", comment);
-    commentDataEntity.setProperty("utcDate", utcDate);
+    String displayName = request.getParameter("name");
+    double lat = Double.parseDouble(request.getParameter("lat"));
+    double lng = Double.parseDouble(request.getParameter("lng"));   
+    String content = Jsoup.clean(request.getParameter("content"), Whitelist.none());
 
-    String displayName = request.getParameter("Name");
-    
     // Update user's displayName in DataStore
     Entity userInfoEntity = new Entity("UserInfo", id);
     userInfoEntity.setProperty("id", id);
     userInfoEntity.setProperty("displayName", displayName); 
+    
+    // Place information about marker in Datastore
+    Entity markerEntity = new Entity("MarkerDataEntity");
+    markerEntity.setProperty("lat", lat);
+    markerEntity.setProperty("lng", lng);
+    markerEntity.setProperty("id", id);
+    markerEntity.setProperty("content", content);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(commentDataEntity);
+    datastore.put(markerEntity);
     datastore.put(userInfoEntity);
-
   }
 
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {    
-    // Load all comments from datastore, sorted by time posted
-    Query query = new Query("CommentData").addSort("utcDate", SortDirection.DESCENDING);
+  /** Fetches markers from Datastore. */
+  private Collection<MarkerData> getMarkersData() {
+    Collection<MarkerData> markersData = new ArrayList<>();
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query = new Query("MarkerDataEntity");
     PreparedQuery results = datastore.prepare(query);
 
-    int maxComments = Integer.parseInt(request.getParameter("max-comments"));
-
-    // Create commentData object for each stored comment, up to maxComments, and store in list
-    int numComments = 0;
-    List<CommentData> commentsData = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
-      if (numComments == maxComments) {
-        break;
-      }
-
+      double lat = (double) entity.getProperty("lat");
+      double lng = (double) entity.getProperty("lng");
+      String content = (String) entity.getProperty("content");
       String id = (String) entity.getProperty("id");
-      String comment = (String) entity.getProperty("content");
-      Date utcDate = (Date) entity.getProperty("utcDate");
-
-      // Create string representation of key for json storage
-      String key = KeyFactory.keyToString(entity.getKey());
 
       String displayName = DataUtil.getUserDisplayName(id);
 
-      CommentData commentData = new CommentData(key, id, displayName, comment, utcDate);
-      commentsData.add(commentData);
+      String key = KeyFactory.keyToString(entity.getKey());
 
-      numComments++;
+      MarkerData markerData = new MarkerData(key, id, displayName, lat, lng, content);
+      markersData.add(markerData);
     }
 
-    // Create json string from list of commentData objects 
-    Gson gson = new GsonBuilder().setDateFormat("M/dd/yyyy hh:mm a z").create();
-    String json = gson.toJson(commentsData);
-
-    // Write json string to response 
-    response.setContentType("application/json");
-    response.getWriter().println(json);
+    return markersData;
   }
+
 }

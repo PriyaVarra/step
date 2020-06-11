@@ -12,7 +12,7 @@ public final class DataUtil {
   * Returns user's most recently set displayName in Datastore 
   * or returns empty string if user has not logged in before.
   */
-  public String getUserDisplayName(String id) {
+  public static String getUserDisplayName(String id) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query =
         new Query("UserInfo")

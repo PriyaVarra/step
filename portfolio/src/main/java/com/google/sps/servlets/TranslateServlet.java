@@ -19,15 +19,15 @@ import com.google.cloud.translate.TranslateOptions;
 import com.google.cloud.translate.Translation;
 import com.google.gson.Gson;
 import com.google.sps.data.TranslationData;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Locale;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Locale;
 
 /** Servlet that translates text for languages in a majority of countries around the world. */
 @WebServlet("/translate")
@@ -40,7 +40,8 @@ public class TranslateServlet extends HttpServlet {
     text = request.getParameter("text");
     translationCache = new HashMap<String, String>();
 
-    InputStream inputStream = getServletContext().getResourceAsStream("/WEB-INF/countrylanguages.json");
+    InputStream inputStream = 
+        getServletContext().getResourceAsStream("/WEB-INF/countrylanguages.json");
 
     Gson gson = new Gson();
     TranslationData[] translationsData = 

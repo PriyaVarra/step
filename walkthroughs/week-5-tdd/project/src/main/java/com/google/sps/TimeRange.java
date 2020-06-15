@@ -75,6 +75,13 @@ public final class TimeRange {
     return start + duration;
   }
 
+ /**
+  * Returns the end of the range. This ending value is the closing inclusive bound.
+  */
+  public int inclusiveEnd() {
+    return start + duration - 1;
+  }
+
   /**
    * Checks if two ranges overlap. This means that at least some part of one range falls within the
    * bounds of another range.

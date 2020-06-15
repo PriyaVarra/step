@@ -531,7 +531,7 @@ function buildTranslationWindowInfo(translationData) {
     
     for (languageKey of Object.keys(translationData.translations)) {     
       // LanguageKey is in form 'isoCode englishName'. Below statement extracts englishName
-      const language = languageKey.substr(languageKey.indexOf(" ") + 1);
+      const language = languageKey.split(",")[1];
 
       const languageText = document.createTextNode(language + ": ");
       const languageElement = document.createElement("b");

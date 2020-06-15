@@ -52,7 +52,7 @@ public class TranslateServlet extends HttpServlet {
       
       for (String languageKey : translations.keySet()) {
         // languageKey is in form "isoCode englishName". Below statement extracts isoCode
-        String isoCode = languageKey.split(" ", 2)[0];
+        String isoCode = languageKey.split(",")[0];
         
         // If language hasn't been translated to yet, use Cloud Translation API
         if (!translationCache.containsKey(isoCode)) {

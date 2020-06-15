@@ -495,7 +495,7 @@ function translateText() {
       for (translationData of translationsData) {
         const marker = new google.maps.Marker({
           position: {lat: translationData.lat, lng: translationData.lng},
-          icon: "http://labs.google.com/ridefinder/images/mm_20_blue.png",
+          icon: "https://labs.google.com/ridefinder/images/mm_20_blue.png",
           map: map
         }); 
         
@@ -545,7 +545,7 @@ function buildTranslationWindowInfo(translationData) {
     containerDiv.appendChild(countryElement);
     containerDiv.appendChild(translationsElement);
 
-    return containerDiv
+    return containerDiv;
 }
 
 /** Clears input in translation text box and removes all translation markers from map. */

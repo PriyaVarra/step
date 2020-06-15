@@ -26,7 +26,7 @@ public final class CommentData {
   }
 
   /** Returns string representation of commenter's user id. */ 
-  public String getID() {
+  public String getId() {
     return id;
   }
 

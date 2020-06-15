@@ -233,14 +233,18 @@
     
         <div class="w3-container w3-padding w3-center">
             <h5> Have you ever wondered how what a phrase would look like in another country? Type it in below and click the blue markers to find out!  </h5>
-            <h6> <i> (Disclaimer: Some countries don't have translation support for their native languages, and it may take a few seconds before the markers appear.) </i>  </h6>
+            <h6> <i> (Disclaimer: Some countries don't have translation support for their native languages) </i>  </h6>
             <input id="translate-input" style="text-align:center" type="text">
         </div>
 
-        <div class = "w3-container w3-padding w3-center">
+        <div class="w3-container w3-padding w3-center">
             <button class="w3-button w3-teal" onclick="translateText()"> Translate </button>
             &nbsp
             <button class="w3-button w3-teal" onclick="clearTranslations()"> Clear </button>
+        </div>
+
+        <div hidden class="w3-container w3-padding w3-center" id="loading">
+          <h6> <b> Translating ... </b> </h6>
         </div>
 
         <center>

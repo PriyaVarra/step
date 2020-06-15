@@ -486,9 +486,12 @@ function translateText() {
   const text = document.getElementById("translate-input").value;
   
   if (text.length > 0) {
+    document.getElementById("loading").hidden = false;
+
     const fetchURL = "translate?text=" + text;
 
     fetch(fetchURL).then(response => response.json()).then((translationsData) => {
+      document.getElementById("loading").hidden = true;
       for (translationData of translationsData) {
         const marker = new google.maps.Marker({
           position: {lat: translationData.lat, lng: translationData.lng},

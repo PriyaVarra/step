@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
  
-let map;
-let editMarker;
 let loggedIn;
 let id;
 let displayName;
+let map;
+let editMarker;
+let countryMarkers = [];
  
 /** 
  * Gets authentication status of user and loads map and comments section. If
@@ -50,7 +51,7 @@ function loadPage() {
       id = "";
       displayName = "";
     }
- 
+    
     createMap();
     getComments();
   });
@@ -182,7 +183,7 @@ function createCommentHeader(name, utcDate) {
  * Adds content of comment left by user to contentElement. If current, logged in
  * user previously wrote comment, edit and delete buttons are also added to
  * content element.
- * @param {obj} commentData Contains information about comment left by user
+ * @param {Object} commentData Contains information about comment left by user
  */
 function addCommentContent(commentData) {
   // Get div identified by key
@@ -216,7 +217,7 @@ function addCommentContent(commentData) {
  * Creates textarea populated with existing comment for user to edit and
  * buttons to cancel or submit changes.
  * @param {string} key String representation of comment's key in Datastore
- * @param {obj} commentData Contains information about comment
+ * @param {Object} commentData Contains information about comment
  */
 function editCommentElement(commentData) {   
   // Get and clear div containing current comment, edit, and delete buttons
@@ -303,7 +304,7 @@ function fetchMarkers() {
 /**
  * Creates a marker that shows a read-only info window when clicked. If current,
  * logged-in user added marker, also adds edit and delete buttons to window.
- * @param {obj} markerData Contains information about marker from Datastore
+ * @param {Object} markerData Contains information about marker from Datastore
  */
 function createMarkerForDisplay(markerData) {
   const marker = new google.maps.Marker({
@@ -347,7 +348,7 @@ function createMarkerForDisplay(markerData) {
  * buttons to cancel or submit changes.
  * @param {Marker} marker Marker on map
  * @param {InfoWindow} infoWindow InfoWindow corresponding to marker
- * @param {obj} markerData Contains information about marker from Datastore
+ * @param {Object} markerData Contains information about marker from Datastore
  */
 function editMapElement(marker, infoWindow, markerData) {
   const containerDiv = document.createElement("div");
@@ -471,6 +472,94 @@ function postMarker(lat, lng, name, content) {
  
   // Reload maps section of page after processing new marker
   fetch("/markers", options).then(_ => {createMap();});
+}
+
+
+/**
+ * Sends text to servlet to be translated by Cloud Translation API and adds
+ * markers with corresponding translations in infowindows for each country.
+ */
+function translateText() {
+  // Clear previous markers and their InfoWindows.
+  clearCountryMarkers();
+
+  const text = document.getElementById("translate-input").value;
+  
+  if (text.length > 0) {
+    document.getElementById("loading").hidden = false;
+
+    const fetchURL = "translate?text=" + text;
+
+    fetch(fetchURL).then(response => response.json()).then((translationsData) => {
+      document.getElementById("loading").hidden = true;
+      for (translationData of translationsData) {
+        const marker = new google.maps.Marker({
+          position: {lat: translationData.lat, lng: translationData.lng},
+          icon: "http://labs.google.com/ridefinder/images/mm_20_blue.png",
+          map: map
+        }); 
+        
+        const infoWindow = new google.maps.InfoWindow({
+          content: buildTranslationWindowInfo(translationData)
+        });
+
+        marker.addListener("click", () => {
+          infoWindow.open(map, marker);
+        });
+
+        // Store marker so that it can be cleared later
+        countryMarkers.push(marker);
+      }
+    });
+  }
+}
+
+/**
+ * Populates InfoWindow corresponding to country with translation of input 
+ * text in the languages spoken in the country.
+ * @param {Object} translationData Contains country name, languages, and translations
+ * @return {HTML Element} Div containing country name, languages, and translations
+ */
+function buildTranslationWindowInfo(translationData) {
+    const containerDiv = document.createElement("div");
+   
+    const countryElement = document.createElement("b");
+    countryElement.appendChild(document.createTextNode(translationData.country));
+
+    const translationsElement = document.createElement("p");
+    translationsElement.class = "w3-center";
+    
+    for (languageKey of Object.keys(translationData.translations)) {     
+      // LanguageKey is in form 'isoCode englishName'. Below statement extracts englishName
+      const language = languageKey.substr(languageKey.indexOf(" ") + 1);
+
+      const languageText = document.createTextNode(language + ": ");
+      const languageElement = document.createElement("b");
+      languageElement.appendChild(languageText);
+
+      translationsElement.appendChild(languageElement);
+      translationsElement.appendChild(document.createTextNode(translationData.translations[languageKey]));
+      translationsElement.appendChild(document.createElement("br"));
+    }
+
+    containerDiv.appendChild(countryElement);
+    containerDiv.appendChild(translationsElement);
+
+    return containerDiv
+}
+
+/** Clears input in translation text box and removes all translation markers from map. */
+function clearTranslations() {
+  document.getElementById("translate-input").value = "";
+  clearCountryMarkers();
+}
+
+/** Removes all translation markers from map */
+function clearCountryMarkers() {
+    for (countryMarker of countryMarkers) {
+      countryMarker.setMap(null);
+    }
+    countryMarkers = [];
 }
 
 /**

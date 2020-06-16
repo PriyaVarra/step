@@ -32,14 +32,12 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that translates text for languages in a majority of countries around the world. */
 @WebServlet("/translate")
 public class TranslateServlet extends HttpServlet {
-  private String text; // Text to be translated to each language
-  private HashMap<String, String> translationCache; // Stores translation for each language
+ 
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    text = request.getParameter("text");
-    translationCache = new HashMap<String, String>();
-
+    String text = request.getParameter("text");
+ 
     InputStream inputStream = 
         getServletContext().getResourceAsStream("/WEB-INF/countrylanguages.json");
 
@@ -47,22 +45,9 @@ public class TranslateServlet extends HttpServlet {
     TranslationData[] translationsData = 
         gson.fromJson(new InputStreamReader(inputStream, "UTF-8"), TranslationData[].class);
 
-    for (TranslationData translationData : translationsData) {
-      HashMap<String, String> translations = translationData.getTranslations();
-      
-      for (String languageKey : translations.keySet()) {
-        // languageKey is in form "isoCode englishName". Below statement extracts isoCode
-        String isoCode = languageKey.split(",")[0];
-        
-        // If language hasn't been translated to yet, use Cloud Translation API
-        if (!translationCache.containsKey(isoCode)) {
-          translate(isoCode);
-        } 
-        
-        translations.replace(languageKey, translationCache.get(isoCode));
-      }
-    }
+    translate(translationsData, text);
 
+    // Write updated translation data to url
     String json = gson.toJson(translationsData);
 
     response.setContentType("application/json");
@@ -70,12 +55,29 @@ public class TranslateServlet extends HttpServlet {
     response.getWriter().println(json);
   }
 
-  /** Translates text to language identified by isoCode and stores result. */
-  private void translate(String isoCode) {
+  /** Translates text to language identified by isoCode and stores result for all countries */
+  private void translate(TranslationData[] translationsData, String text) {
+    HashMap<String, String> translationCache = new HashMap<String, String>();
+
     Translate translate = TranslateOptions.getDefaultInstance().getService();
-    Translation translation =
-        translate.translate(text, Translate.TranslateOption.targetLanguage(isoCode));
-    translationCache.put(isoCode, translation.getTranslatedText());
+
+    for (TranslationData translationData : translationsData) {
+      HashMap<String, String> translations = translationData.getTranslations();
+      
+      for (String languageKey : translations.keySet()) {
+        // languageKey is in form "isoCode, englishName". Below statement extracts isoCode
+        String isoCode = languageKey.split(",")[0];
+        
+        // If language hasn't been translated to yet, use Cloud Translation API
+        if (!translationCache.containsKey(isoCode)) {
+          Translation translation =
+              translate.translate(text, Translate.TranslateOption.targetLanguage(isoCode));
+          translationCache.put(isoCode, translation.getTranslatedText());
+        } 
+        
+      translations.replace(languageKey, translationCache.get(isoCode)); 
+      }
+    } 
   }
  
 }

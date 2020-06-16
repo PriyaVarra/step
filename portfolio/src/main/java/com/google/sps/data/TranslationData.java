@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Class for storing translation data for a country compatible with information
  * in "WEB-INF/countrylanguages.json". The JSON object is an array where each 
- * element is an object in the form {"country": countryName,"lat": latitude, 
+ * element is an object in the form {"country": countryName, "lat": latitude, 
  * "lng": longitude, "translations": {languageOneInfo: "", languageTwoInfo: "", ...}}
  * where country name is the name of the country in English, latitude and longitude 
  * correspond to the geographic center of the country, and for each major language 

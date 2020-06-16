@@ -521,31 +521,31 @@ function translateText() {
  * @return {HTML Element} Div containing country name, languages, and translations
  */
 function buildTranslationWindowInfo(translationData) {
-    const containerDiv = document.createElement("div");
+  const containerDiv = document.createElement("div");
    
-    const countryElement = document.createElement("b");
-    countryElement.appendChild(document.createTextNode(translationData.country));
+  const countryElement = document.createElement("b");
+  countryElement.appendChild(document.createTextNode(translationData.country));
 
-    const translationsElement = document.createElement("p");
-    translationsElement.class = "w3-center";
+  const translationsElement = document.createElement("p");
+  translationsElement.class = "w3-center";
     
-    for (languageKey of Object.keys(translationData.translations)) {     
-      // LanguageKey is in form 'isoCode englishName'. Below statement extracts englishName
-      const language = languageKey.split(",")[1];
+  for (languageKey of Object.keys(translationData.translations)) {     
+    // LanguageKey is in form 'isoCode, englishName'. Below statement extracts englishName
+    const language = languageKey.split(",")[1];
 
-      const languageText = document.createTextNode(language + ": ");
-      const languageElement = document.createElement("b");
-      languageElement.appendChild(languageText);
+    const languageText = document.createTextNode(language + ": ");
+    const languageElement = document.createElement("b");
+    languageElement.appendChild(languageText);
 
-      translationsElement.appendChild(languageElement);
-      translationsElement.appendChild(document.createTextNode(translationData.translations[languageKey]));
-      translationsElement.appendChild(document.createElement("br"));
-    }
+    translationsElement.appendChild(languageElement);
+    translationsElement.appendChild(document.createTextNode(translationData.translations[languageKey]));
+    translationsElement.appendChild(document.createElement("br"));
+  }
 
-    containerDiv.appendChild(countryElement);
-    containerDiv.appendChild(translationsElement);
+  containerDiv.appendChild(countryElement);
+  containerDiv.appendChild(translationsElement);
 
-    return containerDiv;
+  return containerDiv;
 }
 
 /** Clears input in translation text box and removes all translation markers from map. */
@@ -556,10 +556,10 @@ function clearTranslations() {
 
 /** Removes all translation markers from map */
 function clearCountryMarkers() {
-    for (countryMarker of countryMarkers) {
-      countryMarker.setMap(null);
-    }
-    countryMarkers = [];
+  for (countryMarker of countryMarkers) {
+    countryMarker.setMap(null);
+  }
+  countryMarkers = [];
 }
 
 /**

@@ -230,19 +230,34 @@
     <div class="w3-container" id="map" style="margin-top:75px">
         <h1 class="w3-xxxlarge w3-text-teal"><b>Map</b></h1>
         <hr style="width:50px;border:5px solid teal" class="w3-round">
-        <h4 class="w3-center"> <b> Click on the markers to learn about interesting places around the world! <b> </h4>
-        
+    
+        <div class="w3-container w3-padding w3-center">
+            <h5> Have you ever wondered how what a phrase would look like in another country? Type it in below and click the blue markers to find out!  </h5>
+            <h6> <i> (Disclaimer: Some countries don't have translation support for their native languages) </i>  </h6>
+            <input id="translate-input" style="text-align:center" type="text">
+        </div>
+
+        <div class="w3-container w3-padding w3-center">
+            <button class="w3-button w3-teal" onclick="translateText()"> Translate </button>
+            &nbsp
+            <button class="w3-button w3-teal" onclick="clearTranslations()"> Clear </button>
+        </div>
+
+        <div hidden class="w3-container w3-padding w3-center" id="loading">
+          <h6> <b> Translating ... </b> </h6>
+        </div>
+
         <center>
         <div id="map-container" style="border: 15px solid #008080;height: 600px;width: 800px"></div>
         </center>
-        
+        <h5 class="w3-center"> Click on the orange markers to learn about interesting places around the world! </h5>
         <div hidden class="w3-container w3-padding w3-center" id="map-login">
-            <h5> <b> Want to add your favorite place? Login below! </b> </h5>
+            <h5>  Want to add your favorite place? Login below! </h5>
             <button id="login-maps" class="w3-button w3-teal">Login</button>
         </div>
 
         <div hidden class="w3-container w3-padding w3-center" id="map-logout">
-            <h5> <b> Click to add a description about your favorite location on the map! </b> </h5>
+            <h5>  Add a description about your favorite location by clicking on the map!  </h5>
             <button id="logout-maps" class="w3-button w3-teal">Logout</button>
         </div>
     </div>
@@ -254,7 +269,7 @@
         
         <div class="w3-container w3-padding w3-center">
 
-                <h5><b>Choose the maximum number of comments to be displayed below.</b></h5>
+                <h5> Choose the maximum number of comments to be displayed below.</h5>
 
                 <select name="option" id="comments-select" onchange="getComments()">
                     <option value="5">5</option>

@@ -55,7 +55,7 @@ public class TranslateServlet extends HttpServlet {
     response.getWriter().println(json);
   }
 
-  /** Translates text to language identified by isoCode and stores result for all countries */
+  /** Translates text to language identified by isoCode and stores result for all countries. */
   private void translate(TranslationData[] translationsData, String text) {
     HashMap<String, String> translationCache = new HashMap<String, String>();
 
@@ -75,7 +75,7 @@ public class TranslateServlet extends HttpServlet {
           translationCache.put(isoCode, translation.getTranslatedText());
         } 
         
-      translations.replace(languageKey, translationCache.get(isoCode)); 
+        translations.replace(languageKey, translationCache.get(isoCode)); 
       }
     } 
   }

@@ -29,7 +29,7 @@ public final class FindMeetingQuery {
     Collection<String> optionalAttendees = request.getOptionalAttendees();
 
     // Returns true if an event contains at least one required or optional attendee
-    Predicate<Event> containsAllAttendees = e -> {
+    Predicate<Event> containsAnyAttendees = e -> {
       boolean containsRequiredAttendees = 
           !Collections.disjoint(e.getAttendees(), requiredAttendees); 
       boolean containsOptionalAttendees = 
@@ -39,7 +39,7 @@ public final class FindMeetingQuery {
     };
 
     Collection<Event> requiredAndOptionalEvents = 
-        filterEvents(containsAllAttendees, events);
+        filterEvents(containsAnyAttendees, events);
     Collection<TimePoint> requiredAndOptionalPoints =
         createSortedTimePoints(requiredAndOptionalEvents); 
     Collection<TimeRange> allAvailableTimes = 
@@ -52,13 +52,13 @@ public final class FindMeetingQuery {
     }
 
     // Returns true if an event contains at least one required attendee
-    Predicate<Event> containsRequiredAttendees = e -> {   
+    Predicate<Event> containsAnyRequiredAttendees = e -> {   
       return !Collections.disjoint(e.getAttendees(), requiredAttendees); 
     };
     
     // If optional attendees cannot be accomodated, try again with only required attendees
     Collection<Event> requiredEvents = 
-        filterEvents(containsRequiredAttendees, requiredAndOptionalEvents);
+        filterEvents(containsAnyRequiredAttendees, requiredAndOptionalEvents);
     Collection<TimePoint> requiredPoints =
         createSortedTimePoints(requiredEvents); 
     

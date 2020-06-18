@@ -77,8 +77,8 @@ public final class FindMeetingQuery {
 
     for (Event event : events) {
       TimeRange timeRange = event.getWhen();
-      points.add(new TimePoint(timeRange.start(), true));
-      points.add(new TimePoint(timeRange.end(), false));
+      points.add(new TimePoint(timeRange.start(), /* isStart= */ true));
+      points.add(new TimePoint(timeRange.end(), /* isStart= */ false));
     }
 
     Collections.sort(points, TimePoint.ORDER_POINTS);

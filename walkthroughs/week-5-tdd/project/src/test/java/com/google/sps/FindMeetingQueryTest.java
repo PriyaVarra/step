@@ -255,9 +255,9 @@ public final class FindMeetingQueryTest {
     // Have one person, but make it so that there is just enough room at one point in the day to
     // have the meeting, but not for optional attendee.
     //
-    // Events  : |--A--|     |----A----|
-    //                 |-B-|
-    // Day     : |---------------------|
+    // Events  : |--A--|              |----A----|
+    //                 |-B (opt)-|
+    // Day     : |------------------------------|
     // Options :       |-----|
 
     Collection<Event> events = Arrays.asList(
